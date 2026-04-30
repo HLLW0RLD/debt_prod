@@ -6,6 +6,7 @@ import com.example.debt.data.model.TransactionType
 
 data class DebtResponse(
     val id: String,
+    val userId: String,
     val name: String,
     val isMine: Boolean,
     val telegramNick: String?,

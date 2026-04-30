@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -52,6 +53,7 @@ import com.example.debt.ui.theme.AppColors
 import com.example.debt.utils.PreferenceCache
 import com.example.debt.ui.theme.ThemeMode
 import com.example.debt.ui.theme.cardColorById
+import com.example.debt.utils.getTransactionName
 import com.example.debt.utils.openTelegramChat
 import com.example.debt.utils.setColorDate
 
@@ -68,6 +70,7 @@ fun DebtorCard(
     onDeleteDebtorClick: (Debt) -> Unit
 ) {
 
+    val context = LocalContext.current
     val scrollState = rememberLazyListState()
     var showHistory by remember { mutableStateOf(false) }
     val cardColor = remember(debt.id) {
@@ -206,7 +209,9 @@ fun DebtorCard(
                         }
 
                         Text(
-                            text = "${transaction.type.name.uppercase()} - ${transaction.date}",
+
+                            text = "${transaction.type.getTransactionName(context)} - ${transaction.date}",
+
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold,
                             color = AppColors.textPrimary

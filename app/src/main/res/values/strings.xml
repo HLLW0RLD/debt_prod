@@ -28,6 +28,8 @@
     <string name="amount_label">Сумма</string>
     <string name="payment_loan">Оплата займа</string>
     <string name="new_loan">Новый займ</string>
+    <string name="transaction_payment">Оплата</string>
+    <string name="transaction_debt">Займ</string>
 
     <string name="debtor_form_title">Запись о должнике</string>
     <string name="label_name_debt">Имя</string>

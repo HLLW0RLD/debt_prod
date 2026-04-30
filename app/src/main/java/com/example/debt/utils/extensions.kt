@@ -15,7 +15,10 @@ import java.util.Date
 import java.util.Locale
 import androidx.core.net.toUri
 import androidx.navigation.NavController
+import com.example.debt.R
 import com.example.debt.app.utils.LogUtils.errorLog
+import com.example.debt.data.model.Transaction
+import com.example.debt.data.model.TransactionType
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -49,6 +52,13 @@ fun getCurrentDateTime(utc: Boolean = false): String {
         LocalDateTime
         .now(ZoneId.systemDefault())
             .format(DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy"))
+    }
+}
+
+fun TransactionType.getTransactionName(context: Context): String{
+    return when (this) {
+        TransactionType.DEBT -> context.getString(R.string.transaction_debt)
+        TransactionType.PAYMENT -> context.getString(R.string.transaction_payment)
     }
 }
 

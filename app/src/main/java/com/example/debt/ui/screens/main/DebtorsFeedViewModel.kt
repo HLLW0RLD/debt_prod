@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.debt.app.data.repo.DebtRepository
 import com.example.debt.app.utils.LogUtils.errorLog
 import com.example.debt.data.model.Debt
+import com.example.debt.data.model.TransactionType
 import com.example.debt.data.model.request.DebtRequest
 import com.example.debt.data.model.request.DebtUpdateRequest
 import com.example.debt.data.model.request.TransactionRequest
@@ -74,6 +75,7 @@ class DebtorsFeedViewModel(
     @RequiresApi(Build.VERSION_CODES.O)
     fun createDebt(
         name: String,
+        userId: String,
         isMine: Boolean,
         telegramNick: String?,
         debtAmount: Double,
@@ -85,6 +87,7 @@ class DebtorsFeedViewModel(
 
             val request = DebtRequest(
                 name = name,
+                userId = userId,
                 isMine = isMine,
                 telegramNick = telegramNick,
                 debtAmount = debtAmount,
@@ -94,7 +97,7 @@ class DebtorsFeedViewModel(
                 initialTransaction = TransactionRequest(
                     amount = debtAmount,
                     date = getCurrentDateTime(),
-                    type = if (isMine) "DEBT" else "PAYMENT",
+                    type = if (isMine) TransactionType.DEBT.v else TransactionType.PAYMENT.v,
                     comment = comment
                 )
             )

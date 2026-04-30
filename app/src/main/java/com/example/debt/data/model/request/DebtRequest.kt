@@ -5,6 +5,7 @@ import java.util.UUID
 
 data class DebtRequest(
     val id: String = UUID.randomUUID().toString(),
+    val userId: String,
     val name: String,
     val isMine: Boolean,
     val telegramNick: String?,
