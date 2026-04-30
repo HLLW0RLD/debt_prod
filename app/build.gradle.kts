@@ -14,7 +14,7 @@ android {
         minSdk = 25
         targetSdk = 35
         versionCode = 9
-        versionName = "5.3" // 6.0 после добавления юзеров
+        versionName = "5.4" // 6.0 после добавления юзеров
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
