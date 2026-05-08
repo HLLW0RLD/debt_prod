@@ -105,6 +105,9 @@ fun LoginScreen(
                         } else {
                             loginViewModel.register(email, password)
                         }
+
+                        // TODO remove
+                        navController.navigate(DebtorsFeed)
                     }
                 ),
                 modifier = Modifier.fillMaxWidth()
@@ -120,6 +123,9 @@ fun LoginScreen(
                     } else {
                         loginViewModel.register(email, password)
                     }
+
+                    // TODO remove
+                    navController.navigate(DebtorsFeed)
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -166,14 +172,14 @@ fun LoginScreen(
                             navController.navigate(DebtorsFeed)
                         }
                     ) {
-                        Text("войти без аккаунта")
+                        Text("Войти без аккаунта")
                     }
                 },
                 title = {
                     Text("Зачем мне аккаунт?")
                 },
                 text = {
-                    Text("Аккаунт позволит вам не потерять данные после переустановки приложения")
+                    Text("Аккаунт позволит вам не потерять данные после переустановки приложения и переносить их между своими устройствами")
                 }
             )
         }
