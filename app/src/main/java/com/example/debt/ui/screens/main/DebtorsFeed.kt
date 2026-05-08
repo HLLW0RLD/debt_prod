@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -60,7 +59,7 @@ import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.debt.R
-import com.example.debt.domain.Debt
+import com.example.debt.domain.model.Debt
 import com.example.debt.app.ui.items.DebtorCard
 import com.example.debt.app.ui.items.DebtorForm
 import com.example.debt.ui.utils.LogUtils.debugLog
@@ -115,8 +114,6 @@ fun DebtorsFeedScreen(
     )
     var selectedTab by remember { mutableIntStateOf(0) }
 
-    var showThemeDialog by remember { mutableStateOf(false) }
-
     val scrollThreshold = 56f
     var accumulatedScroll by remember { mutableFloatStateOf(0f) }
 
@@ -161,7 +158,6 @@ fun DebtorsFeedScreen(
     )
 
     val scope = rememberCoroutineScope()
-    val scrollState = rememberScrollState()
 
     LaunchedEffect(pagerState.currentPage) {
         selectedTab = pagerState.currentPage
@@ -556,13 +552,5 @@ fun DebtorsFeedScreen(
             }
         }
 
-    }
-}
-
-fun nextFilter(currentFilter: FilterType): FilterType {
-    return when (currentFilter) {
-        FilterType.ALL -> FilterType.ACTIVE
-        FilterType.ACTIVE -> FilterType.PAID
-        FilterType.PAID -> FilterType.ALL
     }
 }

@@ -16,7 +16,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.debt.R
-import com.example.debt.domain.Debt
+import com.example.debt.domain.model.Debt
 import com.example.debt.ui.items.CustomDateTimePickerField
 import com.example.debt.ui.items.CustomOutlinedTextField
 import com.example.debt.ui.items.CustomRadioButton

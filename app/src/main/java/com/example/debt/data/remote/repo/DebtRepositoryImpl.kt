@@ -1,7 +1,7 @@
 package com.example.debt.app.data.repo
 
 import com.example.debt.ui.utils.LogUtils.errorLog
-import com.example.debt.domain.Debt
+import com.example.debt.domain.model.Debt
 import com.example.debt.data.model.request.DebtRequest
 import com.example.debt.data.model.request.DebtUpdateRequest
 import com.example.debt.data.model.response.toModel

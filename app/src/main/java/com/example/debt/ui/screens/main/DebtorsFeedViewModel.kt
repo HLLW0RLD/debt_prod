@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.debt.domain.repo.DebtRepository
 import com.example.debt.ui.utils.LogUtils.errorLog
-import com.example.debt.domain.Debt
-import com.example.debt.domain.TransactionType
+import com.example.debt.domain.model.Debt
+import com.example.debt.domain.model.TransactionType
 import com.example.debt.data.model.request.DebtRequest
 import com.example.debt.data.model.request.DebtUpdateRequest
 import com.example.debt.data.model.request.TransactionRequest

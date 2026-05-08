@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.debt.R
-import com.example.debt.domain.Debt
+import com.example.debt.domain.model.Debt
 import com.example.debt.ui.theme.AppColors
 
 @Composable

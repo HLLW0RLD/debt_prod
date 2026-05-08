@@ -41,11 +41,9 @@ interface DebtApi {
         @Body amount: Double
     ): Response<Boolean>
 
-//    @PATCH("api/debts/{user_id}/{id}") -- так нужно
-    @PATCH("api/debts/{id}")   // -- так сейчас
+    @PATCH("api/debts/{id}")
     suspend fun updateDebt(
         @Path("id") id: String,
-//        @Path("user_id") userId: String,
         @Body request: DebtUpdateRequest
     ): Response<Unit>
 

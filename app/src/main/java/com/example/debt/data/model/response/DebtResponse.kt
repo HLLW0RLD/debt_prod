@@ -1,8 +1,8 @@
 package com.example.debt.data.model.response
 
-import com.example.debt.domain.Debt
-import com.example.debt.domain.Transaction
-import com.example.debt.domain.TransactionType
+import com.example.debt.domain.model.Debt
+import com.example.debt.domain.model.Transaction
+import com.example.debt.domain.model.TransactionType
 
 // android dependencies - cleared!
 

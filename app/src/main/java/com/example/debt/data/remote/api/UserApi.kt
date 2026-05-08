@@ -5,7 +5,5 @@ package com.example.debt.data.remote.api
 
 interface UserApi {
 
-    // user/settings -- через слеш для расширения и получения других данныхх юзера, например api/user/subscription
-
 
 }

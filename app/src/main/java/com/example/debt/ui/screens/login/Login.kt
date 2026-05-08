@@ -1,5 +1,10 @@
 package com.example.debt.ui.screens.login
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -15,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,6 +33,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.debt.app.ui.screens.DebtorsFeed
+import com.example.debt.ui.items.CustomLoadingButton
 import com.example.debt.ui.items.CustomOutlinedTextField
 import com.example.debt.ui.items.CustomTextButton
 import com.example.debt.ui.theme.AppColors
@@ -43,14 +50,10 @@ fun LoginScreen(
 ) {
 
     val navController = LocalNavController.current
-    val focusManager = LocalFocusManager.current
-    val passwordFocusRequester = remember { FocusRequester() }
+
+    val state by loginViewModel.state.collectAsState()
 
     var isLogin by remember { mutableStateOf(false) }
-
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-
     var showInfoDialog by remember { mutableStateOf(false) }
 
     Box(
@@ -70,66 +73,67 @@ fun LoginScreen(
                 color = AppColors.textPrimary,
                 style = MaterialTheme.typography.headlineMedium
             )
-
             Spacer(modifier = Modifier.height(32.dp))
 
             CustomOutlinedTextField(
-                value = email,
-                label = "Email",
-                onValueChange = { email = it },
+                value = loginViewModel.login,
+                label = "Login",
+                onValueChange = { loginViewModel.login = it },
                 singleLine = true,
-                keyboardType = KeyboardType.Email,
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        passwordFocusRequester.requestFocus()
-                    }
-                ),
+                keyboardType = KeyboardType.Text,
                 modifier = Modifier.fillMaxWidth()
             )
-
             Spacer(modifier = Modifier.height(12.dp))
 
+            AnimatedVisibility(
+                visible = !isLogin,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
+                CustomOutlinedTextField(
+                    value = loginViewModel.email,
+                    label = "Email",
+                    onValueChange = { loginViewModel.email = it },
+                    singleLine = true,
+                    keyboardType = KeyboardType.Email,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+
             CustomOutlinedTextField(
-                value = password,
+                value = loginViewModel.password,
                 label = "Пароль",
-                onValueChange = { password = it },
+                onValueChange = { loginViewModel.password = it },
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardType = KeyboardType.Password,
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        focusManager.clearFocus()
-
-                        if (isLogin) {
-                            loginViewModel.login(email, password)
-                        } else {
-                            loginViewModel.register(email, password)
-                        }
-
-                        // TODO remove
-                        navController.navigate(DebtorsFeed)
-                    }
-                ),
                 modifier = Modifier.fillMaxWidth()
             )
-
             Spacer(modifier = Modifier.height(20.dp))
 
-            CustomTextButton(
-                text = if (isLogin) "Войти" else "Создать аккаунт",
+            CustomLoadingButton(
+                textIdl = if (isLogin) "Войти" else "Создать аккаунт",
+                isLoading = state is LoginUiState.Loading,
+                isError = state is LoginUiState.Error,
+                textErr = if(state is LoginUiState.Error) {
+                    (state as LoginUiState.Error).message
+                } else {
+                    ""
+                },
                 onClick = {
                     if (isLogin) {
-                        loginViewModel.login(email, password)
+                        loginViewModel.login(loginViewModel.login, loginViewModel.password) {
+                            navController.navigate(DebtorsFeed)
+                        }
                     } else {
-                        loginViewModel.register(email, password)
+                        loginViewModel.register(loginViewModel.login, loginViewModel.email, loginViewModel.password) {
+                            navController.navigate(DebtorsFeed)
+                        }
                     }
-
-                    // TODO remove
-                    navController.navigate(DebtorsFeed)
                 },
                 modifier = Modifier.fillMaxWidth()
             )
-
             Spacer(modifier = Modifier.height(16.dp))
 
             if (!isLogin) {
@@ -169,7 +173,9 @@ fun LoginScreen(
                     TextButton(
                         onClick = {
                             showInfoDialog = false
-                            navController.navigate(DebtorsFeed)
+                            loginViewModel.saveCacheUser() {
+                                navController.navigate(DebtorsFeed)
+                            }
                         }
                     ) {
                         Text("Войти без аккаунта")

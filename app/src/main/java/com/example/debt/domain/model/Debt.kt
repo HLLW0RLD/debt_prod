@@ -1,4 +1,4 @@
-package com.example.debt.domain
+package com.example.debt.domain.model
 
 // android dependencies - cleared!
 
