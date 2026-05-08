@@ -42,7 +42,7 @@ import com.example.debt.ui.theme.AppColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <T> CustomFilterDropdown(
+fun <T> FilterDropdown(
     currentFilter: T,
     onFilterSelected: (T) -> Unit,
     filterOptions: List<T>,
@@ -52,7 +52,7 @@ fun <T> CustomFilterDropdown(
     textColor: Color = AppColors.textPrimary,
     selectedTextColor: Color = AppColors.accentPrimary,
     iconTint: Color = AppColors.accentPrimary,
-    selectedIcon: Painter = painterResource(R.drawable.ic_money),
+    selectedIcon: Painter? = null,
     dropdownIcon: Painter = painterResource(R.drawable.ic_double_arrow_down),
     modifier: Modifier = Modifier
 ) {
@@ -103,8 +103,7 @@ fun <T> CustomFilterDropdown(
                         .shadow(8.dp, shape = RoundedCornerShape(20.dp)),
                     shape = RoundedCornerShape(20.dp),
                     colors = CardDefaults.cardColors(containerColor = containerColor)
-                )
-                {
+                ) {
                     Column {
                         filterOptions.forEach { filter ->
                             val isSelected = isSelectedEqual(filter, currentFilter)

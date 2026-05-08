@@ -9,9 +9,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +23,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
@@ -48,6 +52,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
 import androidx.core.net.toUri
 import com.example.debt.App
 import com.example.debt.R
@@ -82,6 +88,8 @@ fun DebtorCard(
     val cardColor = remember(debt.id) {
         cardColorById(debt.id)
     }
+
+    var isExpanded by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
@@ -149,7 +157,7 @@ fun DebtorCard(
                 }
                 Icon(
                     contentDescription = "",
-                    painter = painterResource(R.drawable.ic_delete_outline),
+                    painter = painterResource(R.drawable.ic_kebab_vertical),
                     tint = AppColors.textPrimary,
                     modifier = Modifier
                         .size(32.dp)
@@ -157,7 +165,9 @@ fun DebtorCard(
                         .clickable(
                             indication = null,
                             interactionSource = null
-                        ) { onDeleteDebtorClick(debt) }
+                        ) {
+                            isExpanded = true
+                        }
                 )
             }
 
@@ -312,6 +322,52 @@ fun DebtorCard(
                                 interactionSource = null
                             ) { debt.telegramNick.openTelegramChat() }
                     )
+                }
+            }
+        }
+
+        if (isExpanded) {
+            Popup(
+                alignment = Alignment.TopEnd,
+                onDismissRequest = { isExpanded = false }
+            ) {
+                Card(
+                    modifier = Modifier
+                        .width(IntrinsicSize.Min)
+                        .shadow(8.dp, shape = RoundedCornerShape(20.dp)),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(containerColor = AppColors.surface)
+                ) {
+                    Column {
+                        Text(
+                            modifier = Modifier
+                                .clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication = null
+                                ) {
+                                    onEditClick(debt)
+                                    isExpanded = false
+                                }
+                                .padding(horizontal = 16.dp, vertical = 12.dp),
+                            text = stringResource(R.string.edit),
+                            color = AppColors.textPrimary,
+                            fontSize = 14.sp,
+                        )
+                        Text(
+                            modifier = Modifier
+                                .clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication = null
+                                ) {
+                                    onDeleteDebtorClick(debt)
+                                    isExpanded = false
+                                }
+                                .padding(horizontal = 16.dp, vertical = 12.dp),
+                            text = stringResource(R.string.delete),
+                            color = AppColors.textPrimary,
+                            fontSize = 14.sp,
+                        )
+                    }
                 }
             }
         }

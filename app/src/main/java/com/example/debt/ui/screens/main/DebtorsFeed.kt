@@ -66,7 +66,7 @@ import com.example.debt.app.ui.items.DebtorForm
 import com.example.debt.ui.utils.LogUtils.debugLog
 import com.example.debt.domain.utils.validateTelegram
 import com.example.debt.ui.items.AnimatedFloatingActionButton
-import com.example.debt.ui.items.CustomFilterDropdown
+import com.example.debt.ui.items.FilterDropdown
 import com.example.debt.ui.items.DebtPaymentDialog
 import com.example.debt.ui.items.CustomDialog
 import com.example.debt.ui.screens.main.DebtUiState
@@ -209,7 +209,7 @@ fun DebtorsFeedScreen(
                     val active = stringResource(R.string.active)
                     val paid = stringResource(R.string.paid)
 
-                    CustomFilterDropdown(
+                    FilterDropdown(
                         currentFilter = currentFilter,
                         filterOptions = listOf(FilterType.ALL, FilterType.ACTIVE, FilterType.PAID),
                         onFilterSelected = { newFilter ->
