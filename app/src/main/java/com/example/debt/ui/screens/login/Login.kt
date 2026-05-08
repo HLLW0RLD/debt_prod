@@ -30,7 +30,7 @@ import com.example.debt.app.ui.screens.DebtorsFeed
 import com.example.debt.ui.items.CustomOutlinedTextField
 import com.example.debt.ui.items.CustomTextButton
 import com.example.debt.ui.theme.AppColors
-import com.example.debt.utils.LocalNavController
+import com.example.debt.ui.utils.LocalNavController
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
 

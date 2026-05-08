@@ -4,7 +4,7 @@ import com.example.debt.domain.Debt
 import com.example.debt.domain.Transaction
 import com.example.debt.domain.TransactionType
 
-// no android dependencies!
+// android dependencies - cleared!
 
 data class DebtResponse(
     val id: String,
@@ -30,7 +30,7 @@ data class TransactionResponse(
         id = id,
         amount = amount,
         date = date,
-        type = if (type == "DEBT") TransactionType.DEBT else TransactionType.PAYMENT,
+        type = if (type == TransactionType.DEBT.v) TransactionType.DEBT else TransactionType.PAYMENT,
         comment = comment
     )
 }

@@ -1,4 +1,4 @@
-package com.example.debt.utils
+package com.example.debt.ui.utils
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState

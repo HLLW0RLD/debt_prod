@@ -13,8 +13,8 @@ android {
         applicationId = "com.example.debt"
         minSdk = 25
         targetSdk = 35
-        versionCode = 10
-        versionName = "5.4" // 6.0 после добавления юзеров
+        versionCode = 11
+        versionName = "5.5" // 6.0 после добавления юзеров
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -79,6 +79,8 @@ dependencies {
     // gson
     implementation(libs.gson)
     implementation(libs.converter.gson)
+
+    // threetenabp
     implementation(libs.threetenabp)
 
     // navigation

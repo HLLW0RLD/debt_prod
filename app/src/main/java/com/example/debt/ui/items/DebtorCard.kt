@@ -51,20 +51,17 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.example.debt.App
 import com.example.debt.R
-import com.example.debt.app.utils.LogUtils.errorLog
+import com.example.debt.ui.utils.LogUtils.errorLog
 import com.example.debt.domain.Debt
 import com.example.debt.domain.TransactionType
 import com.example.debt.ui.theme.AppColors
 import com.example.debt.data.local.PreferenceCache
+import com.example.debt.domain.utils.parseToFormat
 import com.example.debt.ui.theme.ThemeMode
 import com.example.debt.ui.theme.cardColorById
-import com.example.debt.utils.DateStatus
-import com.example.debt.utils.getDateStatus
-import com.example.debt.utils.toast
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
-import kotlin.ranges.contains
+import com.example.debt.ui.utils.DateStatus
+import com.example.debt.ui.utils.getDateStatus
+import com.example.debt.ui.utils.toast
 
 const val PLUS = "+"
 const val MINUS = "-"
@@ -219,7 +216,7 @@ fun DebtorCard(
 
                         Text(
 
-                            text = "${transaction.type.getTransactionName(context)} - ${transaction.date}",
+                            text = "${transaction.type.getTransactionName(context)} - ${transaction.date.parseToFormat()}",
 
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold,
@@ -243,16 +240,16 @@ fun DebtorCard(
         ) {
 
             Text(
-                text = stringResource(R.string.loan_date_label, debt.loanDate),
+                text = stringResource(R.string.loan_date_label, debt.loanDate.parseToFormat()),
                 style = MaterialTheme.typography.bodyMedium
             )
 
-            if (debt.returnDate?.setColorDate() != null) {
+            if (debt.returnDate != null) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = stringResource(R.string.return_date_label, debt.returnDate),
+                    text = stringResource(R.string.return_date_label, debt.returnDate.parseToFormat()),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = debt.returnDate.setColorDate() ?: Color.White
+                    color = debt.returnDate.parseToFormat().setColorDate() ?: Color.White
                 )
             }
 

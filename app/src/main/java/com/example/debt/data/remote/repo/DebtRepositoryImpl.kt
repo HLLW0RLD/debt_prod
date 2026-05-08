@@ -1,6 +1,6 @@
 package com.example.debt.app.data.repo
 
-import com.example.debt.app.utils.LogUtils.errorLog
+import com.example.debt.ui.utils.LogUtils.errorLog
 import com.example.debt.domain.Debt
 import com.example.debt.data.model.request.DebtRequest
 import com.example.debt.data.model.request.DebtUpdateRequest
@@ -10,7 +10,7 @@ import com.example.debt.domain.repo.DebtRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-// no android dependencies!
+// android dependencies - cleared!
 
 class DebtRepositoryImpl(
     private val apiService: DebtApi,

@@ -1,9 +1,10 @@
 package com.example.debt.data.model.request
 
-import com.example.debt.domain.getCurrentDateTime
+import com.example.debt.domain.utils.getCurrentDateTime
+import com.example.debt.domain.utils.getCurrentDateTimeUTC
 import java.util.UUID
 
-// no android dependencies!
+// android dependencies - cleared!
 
 data class DebtRequest(
     val id: String = UUID.randomUUID().toString(),
@@ -12,7 +13,8 @@ data class DebtRequest(
     val isMine: Boolean,
     val telegramNick: String?,
     val debtAmount: Double,
-    val loanDate: String = getCurrentDateTime(),
+//    val loanDate: String = getCurrentDateTime(),
+    val loanDate: String = getCurrentDateTimeUTC(),
     val returnDate: String?,
     val comment: String?,
     val initialTransaction: TransactionRequest
@@ -21,7 +23,8 @@ data class DebtRequest(
 data class TransactionRequest(
     val id: String = UUID.randomUUID().toString(),
     val amount: Double,
-    val date: String,
+//    val date: String = getCurrentDateTime(),
+    val date: String = getCurrentDateTimeUTC(),
     val type: String, // "DEBT" or "PAYMENT"
     val comment: String? = null
 )

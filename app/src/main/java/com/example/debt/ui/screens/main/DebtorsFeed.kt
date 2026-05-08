@@ -63,8 +63,8 @@ import com.example.debt.R
 import com.example.debt.domain.Debt
 import com.example.debt.app.ui.items.DebtorCard
 import com.example.debt.app.ui.items.DebtorForm
-import com.example.debt.app.utils.LogUtils.debugLog
-import com.example.debt.domain.validateTelegram
+import com.example.debt.ui.utils.LogUtils.debugLog
+import com.example.debt.domain.utils.validateTelegram
 import com.example.debt.ui.items.AnimatedFloatingActionButton
 import com.example.debt.ui.items.CustomFilterDropdown
 import com.example.debt.ui.items.DebtPaymentDialog
@@ -76,7 +76,7 @@ import com.example.debt.ui.screens.settings.Settings
 import com.example.debt.ui.theme.AppColors
 import com.example.debt.data.local.PreferenceCache
 import com.example.debt.ui.theme.interfaceColorById
-import com.example.debt.utils.LocalNavController
+import com.example.debt.ui.utils.LocalNavController
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel

@@ -4,8 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.debt.domain.isValidEmail
-import com.example.debt.utils.AlertManager
+import com.example.debt.domain.utils.isValidEmail
+import com.example.debt.ui.utils.AlertManager
 
 class LoginViewModel(
 //    private val repository: UserRepository,

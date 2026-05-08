@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.compose.runtime.mutableStateOf
 import com.example.debt.App
-import com.example.debt.app.utils.LogUtils.errorLog
+import com.example.debt.ui.utils.LogUtils.errorLog
 import com.example.debt.ui.theme.ThemeMode
 
 object PreferenceCache {

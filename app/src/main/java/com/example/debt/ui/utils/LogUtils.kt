@@ -1,11 +1,10 @@
-package com.example.debt.app.utils
+package com.example.debt.ui.utils
 
 import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
 
 object LogUtils {
-    const val TEST_LOG = "TESTOVIY"
 
     fun Any.debugLog(msg: Any?, tag: String? = null) {
         Log.d(
@@ -64,6 +63,7 @@ object LogUtils {
         return "$fileName.$methodName() (line: ${trace[3].lineNumber})"
     }
 
+    private const val TEST_LOG = "TESTOVIY"
     private const val START_LOG = "<-- START"
     private const val RESULT_LOG = "RESULT:"
     private const val END_LOG = "--> END"

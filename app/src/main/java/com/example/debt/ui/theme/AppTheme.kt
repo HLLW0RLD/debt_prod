@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.example.debt.data.local.PreferenceCache
-import com.example.debt.utils.findActivity
+import com.example.debt.ui.utils.findActivity
 
 enum class ThemeMode {
     SYSTEM, LIGHT, DARK, COLOR

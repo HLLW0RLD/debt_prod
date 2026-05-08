@@ -5,14 +5,13 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.debt.domain.repo.DebtRepository
-import com.example.debt.app.utils.LogUtils.errorLog
+import com.example.debt.ui.utils.LogUtils.errorLog
 import com.example.debt.domain.Debt
 import com.example.debt.domain.TransactionType
 import com.example.debt.data.model.request.DebtRequest
 import com.example.debt.data.model.request.DebtUpdateRequest
 import com.example.debt.data.model.request.TransactionRequest
-import com.example.debt.utils.AlertManager
-import com.example.debt.domain.getCurrentDateTime
+import com.example.debt.ui.utils.AlertManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -90,12 +89,10 @@ class DebtorsFeedViewModel(
                 isMine = isMine,
                 telegramNick = telegramNick,
                 debtAmount = debtAmount,
-                loanDate = getCurrentDateTime(),
                 returnDate = returnDate,
                 comment = comment,
                 initialTransaction = TransactionRequest(
                     amount = debtAmount,
-                    date = getCurrentDateTime(),
                     type = if (isMine) TransactionType.DEBT.v else TransactionType.PAYMENT.v,
                     comment = comment
                 )

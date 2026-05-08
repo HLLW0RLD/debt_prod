@@ -27,12 +27,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.debt.R
+import com.example.debt.domain.utils.getCurrentDateTime
 import com.example.debt.ui.theme.AppColors
-import com.example.debt.utils.DateVisualTransformation
-import com.example.debt.domain.getCurrentDateTime
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import com.example.debt.ui.utils.DateVisualTransformation
+import com.example.debt.domain.utils.toDateString
+import com.example.debt.domain.utils.toDateTimestamp
 import kotlin.text.ifEmpty
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -98,7 +97,7 @@ fun CustomDateTimePickerField(
 
     if (showDatePicker) {
         ReturnCustomPickerDialog(
-            initialDate = date.ifEmpty { getCurrentDateTime() },
+            initialDate = date.ifEmpty { getCurrentDateTime(time = false) },
             onDateSelected = { newDate ->
                 onDateChanged(newDate)
             },
@@ -117,14 +116,7 @@ private fun ReturnCustomPickerDialog(
     onDismiss: () -> Unit
 ) {
     val initialMillis = remember(initialDate) {
-        initialDate?.let { dateString ->
-            try {
-                SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                    .parse(dateString)?.time
-            } catch (e: Exception) {
-                null
-            }
-        }
+        initialDate?.toDateTimestamp()
     }
 
     val datePickerState = rememberDatePickerState(
@@ -136,8 +128,7 @@ private fun ReturnCustomPickerDialog(
         confirmButton = {
             CustomTextButton(color = color, text = "OK") {
                 datePickerState.selectedDateMillis?.let { millis ->
-                    val selectedDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                        .format(Date(millis))
+                    val selectedDate = millis.toDateString()
                     onDateSelected(selectedDate)
                 }
                 onDismiss()

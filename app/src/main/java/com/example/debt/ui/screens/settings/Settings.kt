@@ -31,7 +31,7 @@ import com.example.debt.R
 import com.example.debt.ui.items.CustomRadioButton
 import com.example.debt.ui.theme.AppColors
 import com.example.debt.ui.theme.ThemeMode
-import com.example.debt.utils.LocalNavController
+import com.example.debt.ui.utils.LocalNavController
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
 

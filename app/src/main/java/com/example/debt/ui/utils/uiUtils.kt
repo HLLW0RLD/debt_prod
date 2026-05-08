@@ -1,4 +1,4 @@
-package com.example.debt.utils
+package com.example.debt.ui.utils
 
 import android.content.Context
 import android.content.ContextWrapper

@@ -1,6 +1,6 @@
 package com.example.debt.domain
 
-// no android dependencies!
+// android dependencies - cleared!
 
 data class Debt(
     val id: String = "",
@@ -10,7 +10,7 @@ data class Debt(
     val telegramNick: String?,
     val debtAmount: Double,
     var loanDate: String = "",
-    val returnDate: String? = "", // опционально
+    val returnDate: String? = null, // опционально
     var comment: String? = "", // опционально
     var transactions: List<Transaction> = listOf()
 )

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.debt.app.ui.screens.DebtorsFeed
 import com.example.debt.app.ui.screens.DebtorsFeedScreen
@@ -22,9 +21,9 @@ import com.example.debt.ui.screens.login.LoginScreen
 import com.example.debt.ui.screens.settings.Settings
 import com.example.debt.ui.screens.settings.SettingsScreen
 import com.example.debt.ui.theme.AppTheme
-import com.example.debt.utils.LocalNavController
-import com.example.debt.utils.TopAlertHost
-import com.example.debt.utils.animatedComposable
+import com.example.debt.ui.utils.LocalNavController
+import com.example.debt.ui.utils.TopAlertHost
+import com.example.debt.ui.utils.animatedComposable
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MainActivity : ComponentActivity() {
