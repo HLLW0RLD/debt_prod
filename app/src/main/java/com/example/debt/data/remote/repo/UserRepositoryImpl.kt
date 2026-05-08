@@ -1,4 +1,6 @@
-package com.example.debt.data.repo
+package com.example.debt.data.remote.repo
+
+import com.example.debt.domain.repo.UserRepository
 
 class UserRepositoryImpl: UserRepository {
 

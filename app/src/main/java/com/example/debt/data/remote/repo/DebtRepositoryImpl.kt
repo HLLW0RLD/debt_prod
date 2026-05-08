@@ -1,16 +1,16 @@
 package com.example.debt.app.data.repo
 
-import com.example.debt.app.utils.LogUtils.debugLog
 import com.example.debt.app.utils.LogUtils.errorLog
-import com.example.debt.data.model.Debt
+import com.example.debt.domain.Debt
 import com.example.debt.data.model.request.DebtRequest
 import com.example.debt.data.model.request.DebtUpdateRequest
-import com.example.debt.data.model.response.DebtResponse
 import com.example.debt.data.model.response.toModel
-import com.example.debt.data.remote.DebtApi
+import com.example.debt.data.remote.api.DebtApi
+import com.example.debt.domain.repo.DebtRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
+
+// no android dependencies!
 
 class DebtRepositoryImpl(
     private val apiService: DebtApi,

@@ -1,4 +1,4 @@
-package com.example.debt.data.di
+package com.example.debt.ui.di
 
 
 import com.example.debt.ui.screens.login.LoginViewModel

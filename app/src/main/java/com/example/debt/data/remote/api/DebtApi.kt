@@ -1,4 +1,4 @@
-package com.example.debt.data.remote
+package com.example.debt.data.remote.api
 
 import com.example.debt.data.model.request.DebtRequest
 import com.example.debt.data.model.request.DebtUpdateRequest
@@ -10,6 +10,9 @@ import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+
+// android dependencies!
+// retrofit2
 
 interface DebtApi {
 

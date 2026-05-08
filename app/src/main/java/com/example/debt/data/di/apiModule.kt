@@ -1,14 +1,15 @@
 package com.example.debt.data.di
 
-import com.example.debt.data.remote.AuthInterceptor
-import com.example.debt.data.remote.DebtApi
-import kotlinx.coroutines.runBlocking
+import com.example.debt.data.remote.api.DebtApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+
+// android dependencies!
+// retrofit2, okhttp3
 
 val apiModule = module {
 

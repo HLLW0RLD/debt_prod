@@ -1,5 +1,7 @@
 package com.example.debt.app.ui.items
 
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
@@ -46,16 +48,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import com.example.debt.App
 import com.example.debt.R
-import com.example.debt.data.model.Debt
-import com.example.debt.data.model.TransactionType
+import com.example.debt.app.utils.LogUtils.errorLog
+import com.example.debt.domain.Debt
+import com.example.debt.domain.TransactionType
 import com.example.debt.ui.theme.AppColors
-import com.example.debt.utils.PreferenceCache
+import com.example.debt.data.local.PreferenceCache
 import com.example.debt.ui.theme.ThemeMode
 import com.example.debt.ui.theme.cardColorById
-import com.example.debt.utils.getTransactionName
-import com.example.debt.utils.openTelegramChat
-import com.example.debt.utils.setColorDate
+import com.example.debt.utils.DateStatus
+import com.example.debt.utils.getDateStatus
+import com.example.debt.utils.toast
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import kotlin.ranges.contains
 
 const val PLUS = "+"
 const val MINUS = "-"
@@ -309,5 +318,42 @@ fun DebtorCard(
                 }
             }
         }
+    }
+}
+
+fun TransactionType.getTransactionName(context: Context): String{
+    return when (this) {
+        TransactionType.DEBT -> context.getString(R.string.transaction_debt)
+        TransactionType.PAYMENT -> context.getString(R.string.transaction_payment)
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun String.setColorDate(): Color? {
+    return when (getDateStatus()) {
+        DateStatus.VERY_FAR -> Color.Green
+        DateStatus.FAR -> Color.Yellow
+        DateStatus.CLOSE -> Color.hsl(35f, 1f, 0.5f)
+        DateStatus.TODAY -> Color.Red
+        DateStatus.PAST -> Color.White
+        null -> Color.Red
+    }
+}
+
+fun String.openTelegramChat() {
+    val context = App.appInstance
+    val nick = this.replace("@", "")
+    val telegramUrl = "https://t.me/$nick"
+    val intent = Intent(Intent.ACTION_VIEW, telegramUrl.toUri())
+
+    try {
+        context.packageManager.getPackageInfo("org.telegram.messenger", 0)
+        intent.setPackage("org.telegram.messenger")
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
+
+    } catch (e: Exception) {
+        toast("Telegram не установлен")
+        errorLog(e)
     }
 }

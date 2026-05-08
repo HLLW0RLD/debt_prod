@@ -1,8 +1,10 @@
 package com.example.debt.data.model.response
 
-import com.example.debt.data.model.Debt
-import com.example.debt.data.model.Transaction
-import com.example.debt.data.model.TransactionType
+import com.example.debt.domain.Debt
+import com.example.debt.domain.Transaction
+import com.example.debt.domain.TransactionType
+
+// no android dependencies!
 
 data class DebtResponse(
     val id: String,

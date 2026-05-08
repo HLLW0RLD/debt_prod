@@ -30,37 +30,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.debt.R
-import com.example.debt.app.ui.screens.getFilterText
-import com.example.debt.ui.screens.main.FilterType
 import com.example.debt.ui.theme.AppColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomFilterDropdown(
-    currentFilter: FilterType,
-    onFilterSelected: (FilterType) -> Unit
+fun <T> CustomFilterDropdown(
+    currentFilter: T,
+    onFilterSelected: (T) -> Unit,
+    filterOptions: List<T>,
+    getFilterText: (T) -> String,
+    isSelectedEqual: (T, T) -> Boolean = { a, b -> a == b },
+    containerColor: Color = AppColors.surface,
+    textColor: Color = AppColors.textPrimary,
+    selectedTextColor: Color = AppColors.accentPrimary,
+    iconTint: Color = AppColors.accentPrimary,
+    selectedIcon: Painter = painterResource(R.drawable.ic_money),
+    dropdownIcon: Painter = painterResource(R.drawable.ic_double_arrow_down),
+    modifier: Modifier = Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }
 
-    val filterOptions = listOf(
-        FilterType.ALL,
-        FilterType.ACTIVE,
-        FilterType.PAID,
-    )
-
     Box(
-        modifier = Modifier.wrapContentSize()
+        modifier = modifier.wrapContentSize()
     ) {
         Row(
             modifier = Modifier
                 .clip(RoundedCornerShape(20.dp))
-                .background(AppColors.surface)
+                .background(containerColor)
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null
@@ -79,12 +83,12 @@ fun CustomFilterDropdown(
             Spacer(modifier = Modifier.width(4.dp))
 
             Icon(
-                painter = painterResource(R.drawable.ic_double_arrow_down),
+                painter = dropdownIcon,
                 contentDescription = "",
                 modifier = Modifier
                     .size(18.dp)
                     .rotate(if (isExpanded) 180f else 0f),
-                tint = AppColors.accentPrimary
+                tint = iconTint
             )
         }
 
@@ -98,12 +102,12 @@ fun CustomFilterDropdown(
                         .width(IntrinsicSize.Min)
                         .shadow(8.dp, shape = RoundedCornerShape(20.dp)),
                     shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = AppColors.surface)
+                    colors = CardDefaults.cardColors(containerColor = containerColor)
                 )
                 {
                     Column {
                         filterOptions.forEach { filter ->
-                            val isSelected = filter == currentFilter
+                            val isSelected = isSelectedEqual(filter, currentFilter)
 
                             Row(
                                 modifier = Modifier
@@ -120,17 +124,17 @@ fun CustomFilterDropdown(
                             ) {
                                 Text(
                                     text = getFilterText(filter),
-                                    color = if (isSelected) AppColors.accentPrimary else AppColors.textPrimary,
+                                    color = if (isSelected) selectedTextColor else textColor,
                                     fontSize = 14.sp,
                                     fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal
                                 )
-                                if (isSelected) {
+                                if (isSelected && selectedIcon != null) {
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Icon(
-                                        painter = painterResource(R.drawable.ic_money),
+                                        painter = selectedIcon,
                                         contentDescription = null,
                                         modifier = Modifier.size(16.dp),
-                                        tint = AppColors.accentPrimary
+                                        tint = selectedTextColor
                                     )
                                 }
                             }

@@ -60,23 +60,23 @@ import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.debt.R
-import com.example.debt.data.model.Debt
+import com.example.debt.domain.Debt
 import com.example.debt.app.ui.items.DebtorCard
 import com.example.debt.app.ui.items.DebtorForm
 import com.example.debt.app.utils.LogUtils.debugLog
+import com.example.debt.domain.validateTelegram
 import com.example.debt.ui.items.AnimatedFloatingActionButton
 import com.example.debt.ui.items.CustomFilterDropdown
-import com.example.debt.ui.items.PaymentDialog
-import com.example.debt.ui.items.DebtDialog
+import com.example.debt.ui.items.DebtPaymentDialog
+import com.example.debt.ui.items.CustomDialog
 import com.example.debt.ui.screens.main.DebtUiState
 import com.example.debt.ui.screens.main.DebtorsFeedViewModel
 import com.example.debt.ui.screens.main.FilterType
 import com.example.debt.ui.screens.settings.Settings
 import com.example.debt.ui.theme.AppColors
-import com.example.debt.utils.PreferenceCache
+import com.example.debt.data.local.PreferenceCache
 import com.example.debt.ui.theme.interfaceColorById
 import com.example.debt.utils.LocalNavController
-import com.example.debt.utils.validateTelegram
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
@@ -205,10 +205,22 @@ fun DebtorsFeedScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End
                 ) {
+                    val all = stringResource(R.string.tab_all)
+                    val active = stringResource(R.string.active)
+                    val paid = stringResource(R.string.paid)
+
                     CustomFilterDropdown(
                         currentFilter = currentFilter,
+                        filterOptions = listOf(FilterType.ALL, FilterType.ACTIVE, FilterType.PAID),
                         onFilterSelected = { newFilter ->
                             currentFilter = newFilter
+                        },
+                        getFilterText = { filter ->
+                            when (filter) {
+                                FilterType.ALL -> all
+                                FilterType.ACTIVE -> active
+                                FilterType.PAID -> paid
+                            }
                         }
                     )
 
@@ -453,7 +465,7 @@ fun DebtorsFeedScreen(
 
         if (showPaymentDialog) {
             selectedDebt?.let { debtor ->
-                PaymentDialog(
+                DebtPaymentDialog(
                     debt = debtor,
                     color = editedDebtorBGcolor,
                     onDismiss = {
@@ -474,7 +486,7 @@ fun DebtorsFeedScreen(
         }
 
         if (showDeleteDialog) {
-            DebtDialog(
+            CustomDialog(
                 onDismiss = { showDeleteDialog = false },
                 onCancel = { showDeleteDialog = false },
                 onConfirm = {
@@ -498,39 +510,39 @@ fun DebtorsFeedScreen(
                     debt = editedDebt,
                     isMine = isMineDebtsState,
                     color = editedDebtorBGcolor ?: AppColors.accentPrimary,
-                    onSaveComplete = {
+                    onSaveComplete = { newDebt ->
+
                         if (editedDebt != null) {
                             debtorsFeedViewModel.updateDebt(
-                                id = it.id,
-                                name = it.name,
-                                isMine = it.isMine,
-                                telegramNick = it.telegramNick,
-                                debtAmount = it.debtAmount,
-                                returnDate = it.returnDate,
-                                comment = it.comment,
+                                id = newDebt.id,
+                                name = newDebt.name,
+                                isMine = newDebt.isMine,
+                                telegramNick = newDebt.telegramNick,
+                                debtAmount = newDebt.debtAmount,
+                                returnDate = newDebt.returnDate,
+                                comment = newDebt.comment,
                             )
                             showBottomSheet = false
                         } else {
-
-                            if (it.telegramNick.isNullOrEmpty()) {
+                            if (newDebt.telegramNick.isNullOrEmpty()) {
                                 debtorsFeedViewModel.createDebt(
-                                    name = it.name,
-                                    isMine = it.isMine,
-                                    telegramNick = it.telegramNick,
-                                    debtAmount = it.debtAmount,
-                                    returnDate = it.returnDate,
-                                    comment = it.comment,
+                                    name = newDebt.name,
+                                    isMine = newDebt.isMine,
+                                    telegramNick = newDebt.telegramNick,
+                                    debtAmount = newDebt.debtAmount,
+                                    returnDate = newDebt.returnDate,
+                                    comment = newDebt.comment,
                                 )
                                 showBottomSheet = false
                             } else {
-                                if (it.telegramNick.validateTelegram()) {
+                                if (newDebt.telegramNick.validateTelegram()) {
                                     debtorsFeedViewModel.createDebt(
-                                        name = it.name,
-                                        isMine = it.isMine,
-                                        telegramNick = it.telegramNick,
-                                        debtAmount = it.debtAmount,
-                                        returnDate = it.returnDate,
-                                        comment = it.comment,
+                                        name = newDebt.name,
+                                        isMine = newDebt.isMine,
+                                        telegramNick = newDebt.telegramNick,
+                                        debtAmount = newDebt.debtAmount,
+                                        returnDate = newDebt.returnDate,
+                                        comment = newDebt.comment,
                                     )
                                     showBottomSheet = false
                                 } else {
@@ -544,15 +556,6 @@ fun DebtorsFeedScreen(
             }
         }
 
-    }
-}
-
-@Composable
-fun getFilterText(filter: FilterType): String {
-    return when (filter) {
-        FilterType.ALL -> stringResource(R.string.tab_all)
-        FilterType.ACTIVE -> stringResource(R.string.active)
-        FilterType.PAID -> stringResource(R.string.paid)
     }
 }
 

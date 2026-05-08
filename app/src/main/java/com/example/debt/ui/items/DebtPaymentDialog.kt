@@ -23,11 +23,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.debt.R
-import com.example.debt.data.model.Debt
+import com.example.debt.domain.Debt
 import com.example.debt.ui.theme.AppColors
 
 @Composable
-fun PaymentDialog(
+fun DebtPaymentDialog(
     debt: Debt,
     color: Color? = null,
     onDismiss: () -> Unit,
@@ -71,7 +71,7 @@ fun PaymentDialog(
                     horizontalAlignment = Alignment.Start
                 ) {
                     Spacer(Modifier.width(16.dp))
-                    DebtRadioButton(
+                    CustomRadioButton(
                         selected = !isDebt,
                         onClick = { isDebt = false },
                         color = color,
@@ -79,7 +79,7 @@ fun PaymentDialog(
                     )
 
                     Spacer(Modifier.width(16.dp))
-                    DebtRadioButton(
+                    CustomRadioButton(
                         selected = isDebt,
                         onClick = { isDebt = true },
                         color = color,
@@ -89,7 +89,7 @@ fun PaymentDialog(
             }
         },
         confirmButton = {
-            DebtTextButton(
+            CustomTextButton(
                 color = color,
                 text = stringResource(R.string.confirm_button),
                 enabled = amount.toDoubleOrNull() != null

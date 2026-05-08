@@ -4,15 +4,15 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.debt.app.data.repo.DebtRepository
+import com.example.debt.domain.repo.DebtRepository
 import com.example.debt.app.utils.LogUtils.errorLog
-import com.example.debt.data.model.Debt
-import com.example.debt.data.model.TransactionType
+import com.example.debt.domain.Debt
+import com.example.debt.domain.TransactionType
 import com.example.debt.data.model.request.DebtRequest
 import com.example.debt.data.model.request.DebtUpdateRequest
 import com.example.debt.data.model.request.TransactionRequest
 import com.example.debt.utils.AlertManager
-import com.example.debt.utils.getCurrentDateTime
+import com.example.debt.domain.getCurrentDateTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -75,7 +75,6 @@ class DebtorsFeedViewModel(
     @RequiresApi(Build.VERSION_CODES.O)
     fun createDebt(
         name: String,
-        userId: String,
         isMine: Boolean,
         telegramNick: String?,
         debtAmount: Double,
@@ -87,7 +86,7 @@ class DebtorsFeedViewModel(
 
             val request = DebtRequest(
                 name = name,
-                userId = userId,
+                userId = "userId", // from pref
                 isMine = isMine,
                 telegramNick = telegramNick,
                 debtAmount = debtAmount,

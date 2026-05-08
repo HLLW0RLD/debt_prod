@@ -1,7 +1,9 @@
 package com.example.debt.data.model.request
 
-import com.example.debt.utils.getCurrentDateTime
+import com.example.debt.domain.getCurrentDateTime
 import java.util.UUID
+
+// no android dependencies!
 
 data class DebtRequest(
     val id: String = UUID.randomUUID().toString(),

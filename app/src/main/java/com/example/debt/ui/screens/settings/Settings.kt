@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.debt.R
-import com.example.debt.ui.items.DebtRadioButton
+import com.example.debt.ui.items.CustomRadioButton
 import com.example.debt.ui.theme.AppColors
 import com.example.debt.ui.theme.ThemeMode
 import com.example.debt.utils.LocalNavController
@@ -169,7 +169,7 @@ fun ThemeOption(
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        DebtRadioButton(
+        CustomRadioButton(
             selected = selected,
             text = text,
             onClick = onClick,

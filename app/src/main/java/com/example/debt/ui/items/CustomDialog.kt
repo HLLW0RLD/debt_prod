@@ -22,7 +22,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.example.debt.R
 
 @Composable
-fun DebtDialog(
+fun CustomDialog(
     title: String? = null,
     confirmTitle: String? = null,
     dismissTitle: String? = null,

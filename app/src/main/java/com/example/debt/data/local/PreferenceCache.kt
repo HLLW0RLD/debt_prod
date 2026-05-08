@@ -1,4 +1,4 @@
-package com.example.debt.utils
+package com.example.debt.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,7 +8,7 @@ import com.example.debt.app.utils.LogUtils.errorLog
 import com.example.debt.ui.theme.ThemeMode
 
 object PreferenceCache {
-    private val prefs: SharedPreferences = App.appInstance.getSharedPreferences(
+    private val prefs: SharedPreferences = App.Companion.appInstance.getSharedPreferences(
         "THEME_PREFERENCES",
         Context.MODE_PRIVATE
     )
@@ -34,5 +34,4 @@ object PreferenceCache {
             prefs.edit().putString(SELECTED_THEME, value.name).apply()
             themeChanged.value++
         }
-
 }

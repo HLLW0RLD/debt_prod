@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.debt.ui.theme.AppColors
 
 @Composable
-fun DebtTextButton(
+fun CustomTextButton(
     text: String,
     color: Color? = null,
     enabled: Boolean = true,

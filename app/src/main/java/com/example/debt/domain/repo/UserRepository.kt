@@ -1,4 +1,4 @@
-package com.example.debt.data.repo
+package com.example.debt.domain.repo
 
 interface UserRepository {
 

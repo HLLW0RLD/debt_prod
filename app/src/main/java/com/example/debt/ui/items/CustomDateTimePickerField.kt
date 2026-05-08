@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.example.debt.R
 import com.example.debt.ui.theme.AppColors
 import com.example.debt.utils.DateVisualTransformation
-import com.example.debt.utils.getCurrentDateTime
+import com.example.debt.domain.getCurrentDateTime
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -37,7 +37,7 @@ import kotlin.text.ifEmpty
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DebtDateTimePickerField(
+fun CustomDateTimePickerField(
     label: String,
     date: String,
     isError: Boolean = false,
@@ -62,7 +62,7 @@ fun DebtDateTimePickerField(
     }
 
     Box(modifier = modifier.fillMaxWidth()) {
-        DebtOutlinedTextField(
+        CustomOutlinedTextField(
             value = date,
             onValueChange = { rawInput ->
                 val digits = rawInput.filter { it.isDigit() }.take(8)
@@ -97,7 +97,7 @@ fun DebtDateTimePickerField(
     }
 
     if (showDatePicker) {
-        ReturnAuraPickerDialog(
+        ReturnCustomPickerDialog(
             initialDate = date.ifEmpty { getCurrentDateTime() },
             onDateSelected = { newDate ->
                 onDateChanged(newDate)
@@ -110,7 +110,7 @@ fun DebtDateTimePickerField(
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ReturnAuraPickerDialog(
+private fun ReturnCustomPickerDialog(
     initialDate: String? = null,
     color: Color? = null,
     onDateSelected: (String) -> Unit,
@@ -134,7 +134,7 @@ private fun ReturnAuraPickerDialog(
     DatePickerDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
-            DebtTextButton(color = color, text = "OK") {
+            CustomTextButton(color = color, text = "OK") {
                 datePickerState.selectedDateMillis?.let { millis ->
                     val selectedDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
                         .format(Date(millis))
@@ -144,7 +144,7 @@ private fun ReturnAuraPickerDialog(
             }
         },
         dismissButton = {
-            DebtTextButton(text = "Отмена", color = color) {
+            CustomTextButton(text = "Отмена", color = color) {
                 onDismiss()
             }
         },

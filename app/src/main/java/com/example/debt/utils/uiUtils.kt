@@ -1,12 +1,19 @@
 package com.example.debt.utils
 
+import android.content.Context
+import android.content.ContextWrapper
+import android.os.Build
+import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
@@ -15,6 +22,56 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.example.debt.App
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import kotlin.ranges.contains
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun String.getDateStatus(): DateStatus? {
+    try {
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
+        if (!this.matches(Regex("\\d{2}\\.\\d{2}\\.\\d{4}"))) {
+            return null
+        }
+
+        val inputDate = LocalDate.parse(this, formatter)
+        val currentDate = LocalDate.now()
+        val daysDifference = ChronoUnit.DAYS.between(currentDate, inputDate)
+
+        return when {
+            daysDifference > 8 -> DateStatus.VERY_FAR
+            daysDifference in 3..7 -> DateStatus.FAR
+            daysDifference in 1..2 -> DateStatus.CLOSE
+            daysDifference == 0L -> DateStatus.TODAY
+            else -> DateStatus.PAST
+        }
+    } catch (e: Exception) {
+        return null
+    }
+}
+
+sealed class DateStatus {
+    object VERY_FAR : DateStatus()
+    object FAR : DateStatus()
+    object CLOSE : DateStatus()
+    object TODAY : DateStatus()
+    object PAST : DateStatus()
+}
+
+
+
+fun Any.toast(msg: Any?, duration: Int = LENGTH_SHORT) {
+    Toast.makeText(
+        App.appInstance,
+        if (msg == null) this.toString() else msg.toString(),
+        duration)
+        .show()
+}
+
+
 
 class DateVisualTransformation : VisualTransformation {
 
@@ -56,6 +113,8 @@ class DateVisualTransformation : VisualTransformation {
     }
 }
 
+
+
 inline fun <reified T : Any> NavGraphBuilder.animatedComposable(
     navController: NavController,
     crossinline content: @Composable (T) -> Unit
@@ -90,3 +149,21 @@ fun popEnterTransition(): EnterTransition {
 fun popExitTransition(): ExitTransition {
     return slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(300))
 }
+
+
+internal fun Context.findActivity(): ComponentActivity {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is ComponentActivity) return context
+        context = context.baseContext
+    }
+    throw IllegalStateException("Picture in picture should be called in the context of an Activity")
+}
+
+
+
+val LENGTH_LONG = Toast.LENGTH_LONG
+val LENGTH_SHORT = Toast.LENGTH_SHORT
+
+val LocalNavController =
+    staticCompositionLocalOf<NavController> { throw IllegalStateException("No NavController found") }

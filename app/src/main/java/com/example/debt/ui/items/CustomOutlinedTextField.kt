@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.example.debt.ui.theme.AppColors
 
 @Composable
-fun DebtOutlinedTextField(
+fun CustomOutlinedTextField(
     value: String,
     label: String,
     cursorColor: Color = AppColors.accentPrimary,

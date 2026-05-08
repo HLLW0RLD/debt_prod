@@ -1,4 +1,6 @@
-package com.example.debt.data.model
+package com.example.debt.domain
+
+// no android dependencies!
 
 data class Debt(
     val id: String = "",

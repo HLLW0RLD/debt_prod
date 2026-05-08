@@ -16,11 +16,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.debt.R
-import com.example.debt.data.model.Debt
-import com.example.debt.ui.items.DebtDateTimePickerField
-import com.example.debt.ui.items.DebtOutlinedTextField
-import com.example.debt.ui.items.DebtRadioButton
-import com.example.debt.ui.items.DebtTextButton
+import com.example.debt.domain.Debt
+import com.example.debt.ui.items.CustomDateTimePickerField
+import com.example.debt.ui.items.CustomOutlinedTextField
+import com.example.debt.ui.items.CustomRadioButton
+import com.example.debt.ui.items.CustomTextButton
 import com.example.debt.ui.theme.AppColors
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -71,7 +71,7 @@ fun DebtorForm(
         Spacer(modifier = Modifier.height(8.dp))
 
 
-        DebtOutlinedTextField(
+        CustomOutlinedTextField(
             cursorColor = color,
             focusedLabelColor = color,
             focusedBorderColor = color,
@@ -90,14 +90,14 @@ fun DebtorForm(
             horizontalArrangement = Arrangement.SpaceAround,
             modifier = Modifier.fillMaxWidth()
         ) {
-            DebtRadioButton(
+            CustomRadioButton(
                 selected = !isMineState.value,
                 onClick = { isMineState.value = false },
                 color = color,
                 text = stringResource(R.string.radio_owe_to_me)
             )
 
-            DebtRadioButton(
+            CustomRadioButton(
                 selected = isMineState.value,
                 onClick = { isMineState.value = true },
                 color = color,
@@ -105,7 +105,7 @@ fun DebtorForm(
             )
         }
 
-        DebtOutlinedTextField(
+        CustomOutlinedTextField(
             cursorColor = color,
             focusedLabelColor = color,
             focusedBorderColor = color,
@@ -121,7 +121,7 @@ fun DebtorForm(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        DebtOutlinedTextField(
+        CustomOutlinedTextField(
             cursorColor = color,
             focusedLabelColor = color,
             focusedBorderColor = color,
@@ -143,7 +143,7 @@ fun DebtorForm(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        DebtDateTimePickerField(
+        CustomDateTimePickerField(
             label = stringResource(R.string.label_return_date),
             date = returnDate.value,
             iconColor = color,
@@ -157,7 +157,7 @@ fun DebtorForm(
                 .fillMaxWidth()
         )
 
-        DebtOutlinedTextField(
+        CustomOutlinedTextField(
             cursorColor = color,
             focusedLabelColor = color,
             focusedBorderColor = color,
@@ -173,7 +173,7 @@ fun DebtorForm(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        DebtTextButton(
+        CustomTextButton(
             color = color,
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.save_button),

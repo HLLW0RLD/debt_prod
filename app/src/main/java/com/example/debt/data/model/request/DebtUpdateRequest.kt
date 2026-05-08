@@ -1,5 +1,7 @@
 package com.example.debt.data.model.request
 
+// no android dependencies!
+
 data class DebtUpdateRequest(
     val name: String? = null,
     val isMine: Boolean? = null,

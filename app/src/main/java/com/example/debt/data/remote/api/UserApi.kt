@@ -1,10 +1,7 @@
-package com.example.debt.data.remote
+package com.example.debt.data.remote.api
 
-import com.example.debt.data.model.request.DebtRequest
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+// android dependencies!
+// retrofit2
 
 interface UserApi {
 

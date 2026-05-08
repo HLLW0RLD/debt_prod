@@ -1,8 +1,8 @@
-package com.example.debt.app.data.repo
+package com.example.debt.domain.repo
 
-import com.example.debt.data.model.Debt
 import com.example.debt.data.model.request.DebtRequest
 import com.example.debt.data.model.request.DebtUpdateRequest
+import com.example.debt.domain.Debt
 import kotlinx.coroutines.flow.Flow
 
 interface DebtRepository {
