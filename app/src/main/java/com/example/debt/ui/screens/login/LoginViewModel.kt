@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.debt.domain.repo.UserRepository
 import com.example.debt.domain.utils.isValidEmail
 import com.example.debt.ui.utils.AlertManager
 import kotlinx.coroutines.delay
@@ -19,7 +20,7 @@ sealed class LoginUiState {
 }
 
 class LoginViewModel(
-//    private val repository: UserRepository,
+    private val repository: UserRepository,
     private val alertManager: AlertManager
 ): ViewModel() {
 
@@ -44,7 +45,7 @@ class LoginViewModel(
         viewModelScope.launch {
             _state.value = LoginUiState.Loading
             delay(3000)
-//            onSuccess()
+            onSuccess()
         }
     }
 
@@ -52,13 +53,14 @@ class LoginViewModel(
         viewModelScope.launch {
             _state.value = LoginUiState.Loading
             delay(3000)
-//            onSuccess()
+            onSuccess()
         }
     }
 
     fun saveCacheUser(onSuccess: () -> Unit) {
         viewModelScope.launch {
             _state.value = LoginUiState.Loading
+            delay(3000)
             onSuccess()
         }
     }
