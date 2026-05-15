@@ -67,9 +67,13 @@ dependencies {
     // coil
     implementation(libs.coil.compose)
 
-    // datastore
+    // datastore asynchronous SharedPreferences
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore)
+
+    // kmp local storage
+    implementation(libs.multiplatform.settings.coroutines)
+    implementation(libs.multiplatform.settings)
 
     // api
     implementation(libs.retrofit)
@@ -80,7 +84,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.converter.gson)
 
-    // threetenabp
+    // threetenabp Java 8 java.time for API levels lower than 26
     implementation(libs.threetenabp)
 
     // navigation
@@ -96,7 +100,13 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
 
-    // koin
+    // napier logging
+    implementation(libs.napier)
+
+    // security
+    implementation(libs.androidx.security.crypto)
+
+    // koin di
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)

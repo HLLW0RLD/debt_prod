@@ -6,8 +6,10 @@ import android.security.keystore.KeyProperties
 import com.example.debt.app.data.di.repositoryModule
 import com.example.debt.data.di.apiModule
 import com.example.debt.ui.di.viewModelModule
-import com.example.debt.ui.utils.LogUtils.errorLog
+import com.example.debt.domain.utils.LogUtils.errorLog
 import com.jakewharton.threetenabp.AndroidThreeTen
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import java.security.KeyStore
@@ -21,6 +23,10 @@ class App : Application() {
         _appInstance = this
 
         AndroidThreeTen.init(this)
+
+        if (BuildConfig.DEBUG) {
+            Napier.base(DebugAntilog())
+        }
 
         initTokenCipher()
 
@@ -59,7 +65,7 @@ class App : Application() {
                 keyGenerator.generateKey()
             }
 
-//            TokenCipher.init(secretKey)
+            TokenCipher.init(secretKey)
 
         } catch (e: Exception) {
             errorLog(e, "Failed to init TokenCipher")

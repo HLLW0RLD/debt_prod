@@ -28,6 +28,7 @@ fun AppTheme(
     val window = view.context.findActivity().window
     val insetsController = WindowCompat.getInsetsController(window, view)
 
+    // нужно заменить PreferenceCache.themeChanged на интерфейс
     val colorScheme = remember(PreferenceCache.themeChanged.value) {
         when (PreferenceCache.selectedTheme) {
             ThemeMode.COLOR -> if (isSystemDark) DarkRandomColorScheme else LightRandomColorScheme

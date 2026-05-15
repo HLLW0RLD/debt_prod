@@ -5,7 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.debt.domain.repo.DebtRepository
-import com.example.debt.ui.utils.LogUtils.errorLog
+import com.example.debt.domain.utils.LogUtils.errorLog
 import com.example.debt.domain.model.Debt
 import com.example.debt.domain.model.TransactionType
 import com.example.debt.data.model.request.DebtRequest

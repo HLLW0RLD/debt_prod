@@ -57,7 +57,7 @@ import androidx.compose.ui.window.Popup
 import androidx.core.net.toUri
 import com.example.debt.App
 import com.example.debt.R
-import com.example.debt.ui.utils.LogUtils.errorLog
+import com.example.debt.domain.utils.LogUtils.errorLog
 import com.example.debt.domain.model.Debt
 import com.example.debt.domain.model.TransactionType
 import com.example.debt.ui.theme.AppColors

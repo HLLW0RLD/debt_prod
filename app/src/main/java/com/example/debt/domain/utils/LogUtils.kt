@@ -1,24 +1,26 @@
-package com.example.debt.ui.utils
+package com.example.debt.domain.utils
 
-import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
+import io.github.aakira.napier.Napier
 
 object LogUtils {
 
     fun Any.debugLog(msg: Any?, tag: String? = null) {
-        Log.d(
-            tag ?: TEST_LOG,
-            "$START_LOG DEBUG ${getClassWithMethod()} \n\t $RESULT_LOG ${
+        Napier.d(
+            message =  tag ?: TEST_LOG,
+            throwable = null,
+            tag = "$START_LOG DEBUG ${getClassWithMethod()} \n\t $RESULT_LOG ${
                 createMsg(msg)
             } \n$END_LOG DEBUG ${getClassWithMethod()}\n$BORDER"
         )
     }
 
     fun Any.errorLog(msg: Any?, tag: String? = null) {
-        Log.e(
-            tag ?: setTag(),
-            "$START_LOG EXCEPTION ${getClassWithMethod()} \n\t $RESULT_LOG: ${
+        Napier.e(
+            message = tag ?: setTag(),
+            throwable = null,
+            tag = "$START_LOG EXCEPTION ${getClassWithMethod()} \n\t $RESULT_LOG: ${
                 createMsg(msg)
             } \n$END_LOG EXCEPTION ${getClassWithMethod()}\n$BORDER"
         )

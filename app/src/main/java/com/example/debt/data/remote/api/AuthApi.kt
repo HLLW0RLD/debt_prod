@@ -14,7 +14,7 @@ import retrofit2.http.Path
 // android dependencies!
 // retrofit2
 
-interface UserApi {
+interface AuthApi {
 
     @POST("api/debts/login")
     suspend fun login(
@@ -26,21 +26,26 @@ interface UserApi {
         @Body data: UserRegistration
     ): Response<UserAuth>
 
+    @POST("api/debts/register-guest")
+    suspend fun registerGuest(
+        @Body id: String
+    ): Response<UserAuth>
+
     @PATCH("api/debts/update/{id}")
     suspend fun update(
         @Path("id") id: String,
         @Body update: UserUpdateRequest // use saved id
     ): Response<Unit>
 
-    @DELETE("api/debts/user/{id}")
-    suspend fun deleteAccount(
-        @Path("id") id: String
-    ): Response<Unit>
-
-    // подтверждением пароля
-    @POST("api/debts/user/{id}/delete")
-    suspend fun deleteAccount(
-        @Path("id") id: String,
-        @Body password: String
-    ): Response<Unit>
+//    @DELETE("api/debts/user/{id}")
+//    suspend fun deleteAccount(
+//        @Path("id") id: String
+//    ): Response<Unit>
+//
+//    // с подтверждением пароля
+//    @POST("api/debts/user/{id}/delete")
+//    suspend fun deleteAccount(
+//        @Path("id") id: String,
+//        @Body password: String
+//    ): Response<Unit>
 }

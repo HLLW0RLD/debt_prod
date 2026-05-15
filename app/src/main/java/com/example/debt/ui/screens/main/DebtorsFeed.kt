@@ -62,7 +62,7 @@ import com.example.debt.R
 import com.example.debt.domain.model.Debt
 import com.example.debt.app.ui.items.DebtorCard
 import com.example.debt.app.ui.items.DebtorForm
-import com.example.debt.ui.utils.LogUtils.debugLog
+import com.example.debt.domain.utils.LogUtils.debugLog
 import com.example.debt.domain.utils.validateTelegram
 import com.example.debt.ui.items.AnimatedFloatingActionButton
 import com.example.debt.ui.items.FilterDropdown
