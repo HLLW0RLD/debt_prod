@@ -10,17 +10,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.example.debt.data.local.PreferenceCache
 import com.example.debt.ui.utils.findActivity
 
-enum class ThemeMode {
-    SYSTEM, LIGHT, DARK, COLOR
+enum class ThemeMode(val v: Int) {
+    SYSTEM(0), LIGHT(1), DARK(2), COLOR(3);
+
+    companion object {
+        fun fromValue(value: Int): ThemeMode {
+            return entries.find { it.v == value } ?: SYSTEM
+        }
+    }
 }
 
 @SuppressLint("RememberReturnType")
 @Composable
 fun AppTheme(
     isSystemDark: Boolean = isSystemInDarkTheme(),
+    selectedTheme: ThemeMode,
     content: @Composable () -> Unit
 ) {
 
@@ -28,9 +34,8 @@ fun AppTheme(
     val window = view.context.findActivity().window
     val insetsController = WindowCompat.getInsetsController(window, view)
 
-    // нужно заменить PreferenceCache.themeChanged на интерфейс
-    val colorScheme = remember(PreferenceCache.themeChanged.value) {
-        when (PreferenceCache.selectedTheme) {
+    val colorScheme = remember(selectedTheme, isSystemDark) {
+        when (selectedTheme) {
             ThemeMode.COLOR -> if (isSystemDark) DarkRandomColorScheme else LightRandomColorScheme
             ThemeMode.SYSTEM -> if (isSystemDark) DarkColorScheme else LightColorScheme
             ThemeMode.DARK -> DarkColorScheme
@@ -51,9 +56,9 @@ fun AppTheme(
     )
 }
 
-fun cardColorById(id: String): Color {
+fun cardColorById(id: String, isDarkTheme: Boolean): Color {
     val index = (id.hashCode() and Int.MAX_VALUE) % darkBGColors.size
-    return if (PreferenceCache.isDarkTheme) {
+    return if (isDarkTheme) {
         darkBGColors[index]
     } else {
         lightBGColors[index]

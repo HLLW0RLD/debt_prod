@@ -5,6 +5,7 @@ import com.example.debt.data.model.request.UserRegistration
 import com.example.debt.data.model.request.UserUpdateRequest
 import com.example.debt.data.model.response.UserAuth
 import com.example.debt.data.remote.api.AuthApi
+import com.example.debt.domain.local.PreferenceCache
 import com.example.debt.domain.repo.AuthRepository
 import com.example.debt.domain.utils.LogUtils.errorLog
 import java.util.UUID
@@ -13,7 +14,37 @@ import java.util.UUID
 
 class AuthRepositoryImpl(
     private val apiService: AuthApi,
+    private val preferenceCache: PreferenceCache, // todo move to useCase
 ): AuthRepository {
+
+    override suspend fun registerGuest(): Result<UserAuth?> {
+        val id = UUID.randomUUID().toString()
+
+        return try {
+            val response = apiService.registerGuest(id)
+
+            if (response.isSuccessful) {
+                val userAuth = response.body()
+                // todo move to splash useCase
+                userAuth?.let {
+                    preferenceCache.saveAuth(
+                        userId = it.userId ?: "",
+                        token = it.token ?: ""
+                    )
+                }
+
+                Result.success(userAuth)
+            } else {
+                val errorBody = response.errorBody()?.string()
+                errorLog("Ошибка сервера: ${response.code()} - $errorBody")
+
+                Result.failure(Exception(errorBody))
+            }
+        } catch (e: Exception) {
+            errorLog("Сетевая ошибка: ${e.message}")
+            Result.failure(Exception("Нет подключения к интернету"))
+        }
+    }
 
     override suspend fun login(login: String, password: String): Result<UserAuth?> {
 
@@ -23,8 +54,16 @@ class AuthRepositoryImpl(
             val response = apiService.login(request)
 
             if (response.isSuccessful) {
-                // todo save aut to cache
-                Result.success(response.body())
+                val userAuth = response.body()
+                // todo move to profile useCase
+                userAuth?.let {
+                    preferenceCache.saveAuth(
+                        userId = it.userId ?: "",
+                        token = it.token ?: ""
+                    )
+                }
+
+                Result.success(userAuth)
             } else {
                 val errorBody = response.errorBody()?.string()
                 errorLog("Ошибка сервера: ${response.code()} - $errorBody")
@@ -48,29 +87,16 @@ class AuthRepositoryImpl(
             val response = apiService.register(request)
 
             if (response.isSuccessful) {
-                // todo save aut to cache
-                Result.success(response.body())
-            } else {
-                val errorBody = response.errorBody()?.string()
-                errorLog("Ошибка сервера: ${response.code()} - $errorBody")
+                val userAuth = response.body()
+                // todo move to profile useCase
+                userAuth?.let {
+                    preferenceCache.saveAuth(
+                        userId = it.userId ?: "",
+                        token = it.token ?: ""
+                    )
+                }
 
-                Result.failure(Exception(errorBody))
-            }
-        } catch (e: Exception) {
-            errorLog("Сетевая ошибка: ${e.message}")
-            Result.failure(Exception("Нет подключения к интернету"))
-        }
-    }
-
-    override suspend fun registerGuest(): Result<UserAuth?> {
-        val id = UUID.randomUUID().toString()
-
-        return try {
-            val response = apiService.registerGuest(id)
-
-            if (response.isSuccessful) {
-                // todo save aut to cache
-                Result.success(response.body())
+                Result.success(userAuth)
             } else {
                 val errorBody = response.errorBody()?.string()
                 errorLog("Ошибка сервера: ${response.code()} - $errorBody")

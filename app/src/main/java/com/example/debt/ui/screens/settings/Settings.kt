@@ -31,6 +31,7 @@ import com.example.debt.R
 import com.example.debt.ui.items.CustomRadioButton
 import com.example.debt.ui.theme.AppColors
 import com.example.debt.ui.theme.ThemeMode
+import com.example.debt.ui.theme.AppThemeViewModel
 import com.example.debt.ui.utils.LocalNavController
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
@@ -40,12 +41,17 @@ object Settings
 
 @Composable
 fun SettingsScreen(
-    settingsViewModel: SettingsViewModel = koinViewModel()
+    settingsViewModel: SettingsViewModel = koinViewModel(),
+    appThemeViewModel: AppThemeViewModel = koinViewModel()
 ) {
 
     val navController = LocalNavController.current
 
-    val selectedTheme by settingsViewModel.selectedTheme.collectAsState()
+    val selectedTheme by appThemeViewModel.currentTheme.collectAsState()
+    val isDarkTheme by appThemeViewModel.isDarkTheme.collectAsState()
+    val isLightTheme by appThemeViewModel.isLightTheme.collectAsState()
+    val isColoredTheme by appThemeViewModel.isColoredTheme.collectAsState()
+    val isSystemTheme by appThemeViewModel.isSystemTheme.collectAsState()
 
     val context = LocalContext.current
     val versionName = remember {
@@ -105,33 +111,33 @@ fun SettingsScreen(
 
                 ThemeOption(
                     text = stringResource(R.string.theme_system),
-                    selected = selectedTheme == ThemeMode.SYSTEM,
+                    selected = isSystemTheme,
                     onClick = {
-                        settingsViewModel.setTheme(ThemeMode.SYSTEM)
+                        appThemeViewModel.setTheme(ThemeMode.SYSTEM)
                     }
                 )
 
                 ThemeOption(
                     text = stringResource(R.string.theme_light),
-                    selected = selectedTheme == ThemeMode.LIGHT,
+                    selected = isLightTheme,
                     onClick = {
-                        settingsViewModel.setTheme(ThemeMode.LIGHT)
+                        appThemeViewModel.setTheme(ThemeMode.LIGHT)
                     }
                 )
 
                 ThemeOption(
                     text = stringResource(R.string.theme_dark),
-                    selected = selectedTheme == ThemeMode.DARK,
+                    selected = isDarkTheme,
                     onClick = {
-                        settingsViewModel.setTheme(ThemeMode.DARK)
+                        appThemeViewModel.setTheme(ThemeMode.DARK)
                     }
                 )
 
                 ThemeOption(
                     text = stringResource(R.string.theme_colored),
-                    selected = selectedTheme == ThemeMode.COLOR,
+                    selected = isColoredTheme,
                     onClick = {
-                        settingsViewModel.setTheme(ThemeMode.COLOR)
+                        appThemeViewModel.setTheme(ThemeMode.COLOR)
                     }
                 )
             }

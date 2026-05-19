@@ -101,33 +101,6 @@ class LoginViewModel(
         }
     }
 
-    fun saveCacheUser(onSuccess: () -> Unit) {
-        viewModelScope.launch {
-            _loginState.value = LoginUiState.Loading
-
-            val result = repository.registerGuest()
-
-            // api
-            result.onSuccess {
-                _loginState.value = LoginUiState.Idle
-
-                withContext(Dispatchers.Main) {
-                    onSuccess()
-                }
-            }
-
-            result.onFailure {
-                withContext(Dispatchers.Main) {
-                    showError("${result.exceptionOrNull()?.message}")
-                }
-            }
-
-//            moc
-//            delay(3000)
-//            onSuccess()
-        }
-    }
-
     fun showError(text: String, onActionClick: (() -> Unit)? = null) {
         alertManager.showError(text, onActionClick)
     }

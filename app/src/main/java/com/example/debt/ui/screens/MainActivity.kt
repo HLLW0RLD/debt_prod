@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -20,18 +22,26 @@ import com.example.debt.ui.screens.login.Login
 import com.example.debt.ui.screens.login.LoginScreen
 import com.example.debt.ui.screens.settings.Settings
 import com.example.debt.ui.screens.settings.SettingsScreen
+import com.example.debt.ui.theme.AppThemeViewModel
 import com.example.debt.ui.theme.AppTheme
 import com.example.debt.ui.utils.LocalNavController
 import com.example.debt.ui.utils.TopAlertHost
 import com.example.debt.ui.utils.animatedComposable
+import org.koin.androidx.compose.koinViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            AppTheme {
+            val appThemeViewModel: AppThemeViewModel = koinViewModel()
+            val selectedTheme by appThemeViewModel.currentTheme.collectAsState()
+
+            AppTheme(
+                selectedTheme = selectedTheme
+            ) {
                 val navController = rememberNavController()
 
                 CompositionLocalProvider(
@@ -42,13 +52,13 @@ class MainActivity : ComponentActivity() {
                     ) {
                         NavHost(
                             navController = navController,
-                            startDestination = Login
+                            startDestination = DebtorsFeed // Splash
                         ) {
-                            animatedComposable<Login>(
-                                navController = navController
-                            ) {
-                                LoginScreen()
-                            }
+//                            animatedComposable<Splash>(
+//                                navController = navController
+//                            ) {
+//                                SplashScreen()
+//                            }
                             animatedComposable<DebtorsFeed>(
                                 navController = navController
                             ) {
@@ -59,6 +69,11 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 SettingsScreen()
                             }
+//                            animatedComposable<Login>(
+//                                navController = navController
+//                            ) {
+//                                LoginScreen()
+//                            }
                         }
 
                         TopAlertHost(

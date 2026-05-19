@@ -16,6 +16,11 @@ import retrofit2.http.Path
 
 interface AuthApi {
 
+    @POST("api/debts/register-guest")
+    suspend fun registerGuest(
+        @Body id: String
+    ): Response<UserAuth>
+
     @POST("api/debts/login")
     suspend fun login(
         @Body data: UserLogin
@@ -24,11 +29,6 @@ interface AuthApi {
     @POST("api/debts/register")
     suspend fun register(
         @Body data: UserRegistration
-    ): Response<UserAuth>
-
-    @POST("api/debts/register-guest")
-    suspend fun registerGuest(
-        @Body id: String
     ): Response<UserAuth>
 
     @PATCH("api/debts/update/{id}")

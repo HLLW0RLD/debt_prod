@@ -34,6 +34,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,13 +62,13 @@ import com.example.debt.domain.utils.LogUtils.errorLog
 import com.example.debt.domain.model.Debt
 import com.example.debt.domain.model.TransactionType
 import com.example.debt.ui.theme.AppColors
-import com.example.debt.data.local.PreferenceCache
 import com.example.debt.domain.utils.parseToFormat
-import com.example.debt.ui.theme.ThemeMode
+import com.example.debt.ui.theme.AppThemeViewModel
 import com.example.debt.ui.theme.cardColorById
 import com.example.debt.ui.utils.DateStatus
 import com.example.debt.ui.utils.getDateStatus
 import com.example.debt.ui.utils.toast
+import org.koin.androidx.compose.koinViewModel
 
 const val PLUS = "+"
 const val MINUS = "-"
@@ -79,14 +80,18 @@ fun DebtorCard(
     debt: Debt,
     onPaymentClick: (Debt) -> Unit,
     onEditClick: (Debt) -> Unit,
-    onDeleteDebtorClick: (Debt) -> Unit
+    onDeleteDebtorClick: (Debt) -> Unit,
+    appThemeViewModel: AppThemeViewModel = koinViewModel()
 ) {
+
+    val isDarkTheme by appThemeViewModel.isDarkTheme.collectAsState()
+    val isColoredTheme by appThemeViewModel.isColoredTheme.collectAsState()
 
     val context = LocalContext.current
     val scrollState = rememberLazyListState()
     var showHistory by remember { mutableStateOf(false) }
     val cardColor = remember(debt.id) {
-        cardColorById(debt.id)
+        cardColorById(debt.id, isDarkTheme)
     }
 
     var isExpanded by remember { mutableStateOf(false) }
@@ -107,7 +112,7 @@ fun DebtorCard(
             },
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (PreferenceCache.selectedTheme == ThemeMode.COLOR) {
+            containerColor = if (isColoredTheme) {
                 cardColor
             } else {
                 AppColors.surface
@@ -291,7 +296,7 @@ fun DebtorCard(
                         ) { onPaymentClick(debt) },
                     contentAlignment = Alignment.Center
                 ) {
-                    val color = if (PreferenceCache.selectedTheme == ThemeMode.COLOR) cardColor else AppColors.accentPrimary
+                    val color = if (isColoredTheme) cardColor else AppColors.accentPrimary
                     Image(
                         contentDescription = "",
                         painter = painterResource(R.drawable.ic_pay),
@@ -306,7 +311,7 @@ fun DebtorCard(
                         contentDescription = "",
                         painter = painterResource(R.drawable.ic_telegram),
                         colorFilter = ColorFilter
-                            .tint(if (PreferenceCache.selectedTheme == ThemeMode.COLOR) {
+                            .tint(if (isColoredTheme) {
                                 cardColor
                             } else {
                                 AppColors.surface

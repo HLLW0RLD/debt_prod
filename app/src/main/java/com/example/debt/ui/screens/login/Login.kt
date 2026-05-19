@@ -169,9 +169,9 @@ fun LoginScreen(
                     TextButton(
                         onClick = {
                             showInfoDialog = false
-                            loginViewModel.saveCacheUser() {
-                                navController.navigate(DebtorsFeed)
-                            }
+//                            loginViewModel.registerGuest() {
+//                                navController.navigate(DebtorsFeed)
+//                            }
                         }
                     ) {
                         Text("Войти без аккаунта")

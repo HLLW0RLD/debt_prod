@@ -1,5 +1,6 @@
 package com.example.debt.data.di
 
+import com.example.debt.data.remote.api.AuthApi
 import com.example.debt.data.remote.api.DebtApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -43,4 +44,5 @@ val apiModule = module {
     }
 
     single { get<Retrofit>().create(DebtApi::class.java) }
+    single { get<Retrofit>().create(AuthApi::class.java) }
 }

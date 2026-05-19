@@ -72,8 +72,8 @@ import com.example.debt.ui.screens.main.DebtUiState
 import com.example.debt.ui.screens.main.DebtorsFeedViewModel
 import com.example.debt.ui.screens.main.FilterType
 import com.example.debt.ui.screens.settings.Settings
+import com.example.debt.ui.theme.AppThemeViewModel
 import com.example.debt.ui.theme.AppColors
-import com.example.debt.data.local.PreferenceCache
 import com.example.debt.ui.theme.interfaceColorById
 import com.example.debt.ui.utils.LocalNavController
 import kotlinx.coroutines.launch
@@ -87,7 +87,8 @@ object DebtorsFeed
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DebtorsFeedScreen(
-    debtorsFeedViewModel: DebtorsFeedViewModel = koinViewModel()
+    debtorsFeedViewModel: DebtorsFeedViewModel = koinViewModel(),
+    appThemeViewModel: AppThemeViewModel = koinViewModel()
 ) {
     val navController = LocalNavController.current
 
@@ -118,6 +119,10 @@ fun DebtorsFeedScreen(
     var accumulatedScroll by remember { mutableFloatStateOf(0f) }
 
     var extended by remember { mutableStateOf(true) }
+
+    val selectedTheme by appThemeViewModel.currentTheme.collectAsState()
+    val isDarkTheme by appThemeViewModel.isDarkTheme.collectAsState()
+    val isColoredTheme by appThemeViewModel.isColoredTheme.collectAsState()
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -361,14 +366,14 @@ fun DebtorsFeedScreen(
                                             showDeleteDialog = true
                                         },
                                         onPaymentClick = { debtor ->
-                                            editedDebtorBGcolor = if (PreferenceCache.isColoredTheme)
+                                            editedDebtorBGcolor = if (isColoredTheme)
                                                 interfaceColorById(debtor.id)
                                             else null
                                             selectedDebt = debtor
                                             showPaymentDialog = true
                                         },
                                         onEditClick = { debtor ->
-                                            editedDebtorBGcolor = if (PreferenceCache.isColoredTheme)
+                                            editedDebtorBGcolor = if (isColoredTheme)
                                                 interfaceColorById(debtor.id)
                                             else null
                                             editedDebt = debtor
