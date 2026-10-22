@@ -1,5 +1,6 @@
 package com.example.debt.app.data.di
 
+import com.example.debt.data.db.AppDatabase
 import com.example.debt.data.local.PreferenceCacheImpl
 import com.example.debt.domain.local.PreferenceCache
 import org.koin.android.ext.koin.androidContext
@@ -16,8 +17,11 @@ val localDbModule = module {
         )
     }
 
-////    single<AppDatabase> {
-////        AppDatabase.create(get())
-////    }
+    single<AppDatabase> {
+        AppDatabase.create(get())
+    }
 
+    single {
+        get<AppDatabase>().debtorDao()
+    }
 }

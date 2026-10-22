@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.debt.app.data.repo.LocalRepository
 import com.example.debt.domain.repo.DebtRepository
 import com.example.debt.domain.utils.LogUtils.errorLog
 import com.example.debt.domain.model.Debt
@@ -33,19 +34,21 @@ enum class FilterType {
 }
 
 sealed class DebtUiState {
-    object Loading : DebtUiState()
+//    object Loading : DebtUiState()
     data class Success(val debtors: List<Debt>) : DebtUiState()
     data class Error(val message: String) : DebtUiState()
 }
 
 class DebtorsFeedViewModel(
     private val authRepository: AuthRepository,
-    private val debtRepository: DebtRepository,
+//    private val debtRepository: DebtRepository,
+    private val localRepository: LocalRepository,
     private val preferenceCache: PreferenceCache,
     private val alertManager: AlertManager
-) : ViewModel() {
+) : ViewModel()
+{
 
-    private val _debtors = MutableStateFlow<DebtUiState>(DebtUiState.Loading)
+    private val _debtors = MutableStateFlow<DebtUiState>(DebtUiState.Success(emptyList()))
     val debtors = _debtors.asStateFlow()
 
     private val _debtor = MutableStateFlow<Debt?>(null)
@@ -63,14 +66,14 @@ class DebtorsFeedViewModel(
         )
 
     init {
-        if (userId.value.isEmpty()) {
-            // todo move to splashViewModel
-            registerGuest {
-                loadAllDebts(false)
-            }
-        } else {
+//        if (userId.value.isEmpty()) {
+//            // todo move to splashViewModel
+//            registerGuest {
+//                loadAllDebts(false)
+//            }
+//        } else {
             loadAllDebts(false)
-        }
+//        }
     }
 
     fun showError(text: String, onActionClick: (() -> Unit)? = null) {
@@ -83,10 +86,10 @@ class DebtorsFeedViewModel(
 
     fun loadAllDebts(refreshing: Boolean = true) {
         viewModelScope.launch {
-            if (refreshing) _refresh.value = true else _debtors.value = DebtUiState.Loading
+            if (refreshing) _refresh.value = true
 
             try {
-                debtRepository.getAllDebts().collect { debts ->
+                localRepository.getAllDebts().collect { debts ->
                     _debtors.value = DebtUiState.Success(debts)
                     _refresh.value = false
                 }
@@ -126,7 +129,7 @@ class DebtorsFeedViewModel(
             )
 
             try {
-                debtRepository.createDebt(request)
+                localRepository.createDebt(request)
                 loadAllDebts()
             } catch (e: Exception) {
                 showError(e.message ?: "Error")
@@ -141,7 +144,7 @@ class DebtorsFeedViewModel(
             _refresh.value = true
 
             try {
-                val paid = debtRepository.payDebt(debtorId, paymentAmount)
+                val paid = localRepository.payDebt(debtorId, paymentAmount)
                 if (paid) showInfo("your debt is paid")
                 loadAllDebts()
             } catch (e: Exception) {
@@ -156,7 +159,7 @@ class DebtorsFeedViewModel(
         viewModelScope.launch {
             _refresh.value = true
             try {
-                debtRepository.addDebt(debtorId, additionalAmount)
+                localRepository.addDebt(debtorId, additionalAmount)
                 loadAllDebts()
             } catch (e: Exception) {
                 showError(e.message ?: "Error")
@@ -187,7 +190,7 @@ class DebtorsFeedViewModel(
             )
 
             try {
-                debtRepository.updateDebt(id, request)
+                localRepository.updateDebt(id, request)
                 loadAllDebts()
             } catch (e: Exception) {
                 showError(e.message ?: "Error")
@@ -202,7 +205,7 @@ class DebtorsFeedViewModel(
             _refresh.value = true
 
             try {
-                debtRepository.deleteDebt(id)
+                localRepository.deleteDebt(id)
                 loadAllDebts()
             } catch (e: Exception) {
                 showError(e.message ?: "Error")
@@ -215,7 +218,7 @@ class DebtorsFeedViewModel(
     fun getDebtorById(id: String) {
         viewModelScope.launch {
             try {
-                _debtor.value = debtRepository.getDebtById(id)
+                _debtor.value = localRepository.getDebtById(id)
             } catch (e: Exception) {
                 showError(e.message ?: "Error")
                 errorLog(e)
@@ -226,7 +229,7 @@ class DebtorsFeedViewModel(
     // todo move to splashViewModel
     fun registerGuest(onSuccess: () -> Unit) {
         viewModelScope.launch {
-            _debtors.value = DebtUiState.Loading
+            _debtors.value = DebtUiState.Success(emptyList())
 
             val result = authRepository.registerGuest()
 

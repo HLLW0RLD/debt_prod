@@ -1,5 +1,8 @@
 package com.example.debt.domain.model
 
+import com.example.debt.domain.utils.getCurrentDateTimeUTC
+import java.util.UUID
+
 // android dependencies - cleared!
 
 data class Debt(
@@ -26,4 +29,34 @@ data class Transaction(
 enum class TransactionType(val v: String) {
     DEBT("DEBT"),
     PAYMENT("PAYMENT")
+}
+
+fun Debt.addDebt(amount: Double, transactionComment: String? = comment): Debt {
+    val transaction = Transaction(
+        id = UUID.randomUUID().toString(),
+        amount = amount,
+        date = getCurrentDateTimeUTC(),
+        type = TransactionType.DEBT,
+        comment = transactionComment
+    )
+
+    return copy(
+        debtAmount = debtAmount + amount,
+        transactions = transactions + transaction
+    )
+}
+
+fun Debt.addPayment(amount: Double, transactionComment: String? = comment): Debt {
+    val transaction = Transaction(
+        id = UUID.randomUUID().toString(),
+        amount = amount,
+        date = getCurrentDateTimeUTC(),
+        type = TransactionType.PAYMENT,
+        comment = transactionComment
+    )
+
+    return copy(
+        debtAmount = debtAmount - amount,
+        transactions = transactions + transaction
+    )
 }

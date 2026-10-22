@@ -27,9 +27,9 @@ class App : Application() {
         startKoin {
             androidContext(this@App)
             modules(
+                localDbModule,
                 apiModule,
                 repositoryModule,
-                localDbModule,
                 viewModelModule,
             )
         }

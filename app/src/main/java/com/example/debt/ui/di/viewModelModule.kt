@@ -11,7 +11,13 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel { LoginViewModel(get(), get()) }
-    viewModel { DebtorsFeedViewModel(get(), get(), get(), get()) }
+    viewModel { DebtorsFeedViewModel(
+        get(),
+        get(),
+        get(),
+        get()
+    )
+    }
     viewModel { SettingsViewModel(get()) }
     viewModel { AppThemeViewModel(get()) }
 

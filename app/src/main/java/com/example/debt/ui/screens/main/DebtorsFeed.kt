@@ -390,28 +390,28 @@ fun DebtorsFeedScreen(
                     }
                 }
 
-                is DebtUiState.Loading -> {
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator()
-
-                        Text(
-                            color = AppColors.textPrimary,
-                            text = stringResource(R.string.loading_debts),
-                            fontSize = 24.sp,
-                            style = MaterialTheme.typography.bodyLarge,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(24.dp),
-                        )
-                    }
-                }
+//                is DebtUiState.Loading -> {
+//
+//                    Column(
+//                        modifier = Modifier
+//                            .fillMaxSize(),
+//                        horizontalAlignment = Alignment.CenterHorizontally,
+//                        verticalArrangement = Arrangement.Center
+//                    ) {
+//                        CircularProgressIndicator()
+//
+//                        Text(
+//                            color = AppColors.textPrimary,
+//                            text = stringResource(R.string.loading_debts),
+//                            fontSize = 24.sp,
+//                            style = MaterialTheme.typography.bodyLarge,
+//                            textAlign = TextAlign.Center,
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .padding(24.dp),
+//                        )
+//                    }
+//                }
 
                 is DebtUiState.Error -> {
 
