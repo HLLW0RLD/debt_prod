@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">debt</string>
+    <string name="app_name">bdui_example</string>
 
     <string name="debt_title">Debtor</string>
     <string name="active">Активные</string>

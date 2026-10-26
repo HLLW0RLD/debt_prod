@@ -1,0 +1,12 @@
+package com.example.bdui.data.model.request
+
+// android dependencies - cleared!
+
+data class DebtUpdateRequest(
+    val name: String? = null,
+    val isMine: Boolean? = null,
+    val telegramNick: String? = null,
+    val debtAmount: Double? = null,
+    val returnDate: String? = null,
+    val comment: String? = null
+)

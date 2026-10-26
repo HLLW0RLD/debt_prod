@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.debt"
+    namespace = "com.example.bdui_example"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.debt"
+        applicationId = "com.example.bdui_example"
         minSdk = 25
         targetSdk = 35
         versionCode = 11
@@ -24,7 +24,7 @@ android {
         outputs.map { output ->
             val outputImpl = output as com.android.build.gradle.internal.api.BaseVariantOutputImpl
 
-            val appName = "debt"
+            val appName = "bdui_example"
 
             val versionName = versionName ?: "unknown"
             val versionCode = versionCode.toString()
