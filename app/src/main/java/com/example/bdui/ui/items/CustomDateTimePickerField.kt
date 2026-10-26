@@ -26,7 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.example.bdui.R
+import com.example.bdui_example.R
 import com.example.bdui.domain.utils.getCurrentDateTime
 import com.example.bdui.ui.theme.AppColors
 import com.example.bdui.ui.utils.DateVisualTransformation

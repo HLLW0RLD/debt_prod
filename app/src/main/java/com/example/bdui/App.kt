@@ -1,7 +1,7 @@
 package com.example.bdui
 
 import android.app.Application
-import com.example.bdui.app.data.di.localDbModule
+import com.example.bdui.app.data.di.localCacheModule
 import com.example.bdui.app.data.di.repositoryModule
 import com.example.bdui.data.di.apiModule
 import com.example.bdui.ui.di.viewModelModule
@@ -27,7 +27,7 @@ class App : Application() {
         startKoin {
             androidContext(this@App)
             modules(
-                localDbModule,
+                localCacheModule,
                 apiModule,
                 repositoryModule,
                 viewModelModule,

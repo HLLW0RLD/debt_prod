@@ -14,8 +14,8 @@ android {
         applicationId = "com.example.bdui_example"
         minSdk = 25
         targetSdk = 35
-        versionCode = 11
-        versionName = "5.5" // 6.0 после добавления юзеров
+        versionCode = 1
+        versionName = "0.1" //
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

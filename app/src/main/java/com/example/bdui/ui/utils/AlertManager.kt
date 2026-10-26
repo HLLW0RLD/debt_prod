@@ -44,7 +44,7 @@ import androidx.wear.compose.material.ExperimentalWearMaterialApi
 import androidx.wear.compose.material.FractionalThreshold
 import androidx.wear.compose.material.rememberSwipeableState
 import androidx.wear.compose.material.swipeable
-import com.example.bdui.R
+import com.example.bdui_example.R
 import com.example.bdui.ui.theme.AppColors
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "screenId": "home",
+  "title": "Главная",
+  "body": {
+    "type": "column",
+    "padding": 8,
+    "spacing": 16,
+    "children": [
+      {
+        "type": "text",
+        "text": "Это демонстрационный BDUI-экран."
+      },
+      {
+        "type": "text",
+        "text": "Измени JSON, чтобы изменить интерфейс без создания нового Compose-экрана."
+      },
+      {
+        "type": "card",
+        "children": [
+          {
+            "type": "text",
+            "text": "Как тебя зовут?"
+          },
+          {
+            "type": "textField",
+            "stateKey": "name",
+            "label": "Имя"
+          },
+          {
+            "type": "button",
+            "text": "Открыть детали",
+            "action": {
+              "type": "navigate",
+              "destination": "details",
+              "args": {
+                "name": "$name"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "text": "Настройки",
+        "action": {
+          "type": "navigate",
+          "destination": "settings"
+        }
+      }
+    ]
+  }
+}

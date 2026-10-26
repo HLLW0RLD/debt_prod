@@ -1,7 +1,6 @@
 package com.example.bdui.data.di
 
-import com.example.bdui.data.remote.api.AuthApi
-import com.example.bdui.data.remote.api.DebtApi
+import com.example.bdui.data.remote.api.BduiApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -18,17 +17,8 @@ val apiModule = module {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-//    single {
-//        AuthInterceptor {
-//            runBlocking {
-//                PersonalDataManager.getTokenFromCache()
-//            }
-//        }
-//    }
-
     single {
         OkHttpClient.Builder()
-//            .addInterceptor(get<AuthInterceptor>())
             .addInterceptor(logging)
             .connectTimeout(15, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
@@ -37,12 +27,11 @@ val apiModule = module {
 
     single {
         Retrofit.Builder()
-            .baseUrl("https://feel-u.ru/debts-api/")
+            .baseUrl("")
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
-    single { get<Retrofit>().create(DebtApi::class.java) }
-    single { get<Retrofit>().create(AuthApi::class.java) }
+    single { get<Retrofit>().create(BduiApi::class.java) }
 }

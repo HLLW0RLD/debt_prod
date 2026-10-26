@@ -37,8 +37,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
-import com.example.bdui.R
 import com.example.bdui.ui.theme.AppColors
+import com.example.bdui_example.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

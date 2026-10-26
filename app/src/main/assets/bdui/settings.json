@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "screenId": "settings",
+  "title": "Настройки",
+  "body": {
+    "type": "column",
+    "spacing": 16,
+    "children": [
+      {
+        "type": "text",
+        "text": "Демонстрационные настройки"
+      },
+      {
+        "type": "card",
+        "children": [
+          {
+            "type": "text",
+            "text": "Этот экран целиком описан в JSON."
+          },
+          {
+            "type": "text",
+            "text": "Позже здесь можно разместить переключатели, поля и другие компоненты."
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "text": "На главную",
+        "action": {
+          "type": "navigate",
+          "destination": "home"
+        }
+      }
+    ]
+  }
+}

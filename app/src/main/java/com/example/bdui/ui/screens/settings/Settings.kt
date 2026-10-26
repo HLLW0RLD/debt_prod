@@ -27,7 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.bdui.R
+import com.example.bdui_example.R
 import com.example.bdui.ui.items.CustomRadioButton
 import com.example.bdui.ui.theme.AppColors
 import com.example.bdui.ui.theme.ThemeMode

@@ -16,10 +16,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.bdui.app.ui.screens.DebtorsFeed
-import com.example.bdui.app.ui.screens.DebtorsFeedScreen
-import com.example.bdui.ui.screens.settings.Settings
-import com.example.bdui.ui.screens.settings.SettingsScreen
+import com.example.bdui.ui.bdui.BduiScreenHost
+import com.example.bdui.ui.bdui.model.ScreenPage
+import com.example.bdui.ui.bdui.renderer.BduiScreenContent
 import com.example.bdui.ui.theme.AppThemeViewModel
 import com.example.bdui.ui.theme.AppTheme
 import com.example.bdui.ui.utils.LocalNavController
@@ -50,28 +49,29 @@ class MainActivity : ComponentActivity() {
                     ) {
                         NavHost(
                             navController = navController,
-                            startDestination = DebtorsFeed // Splash
+                            // Временно запускаем BDUI для разработки.
+                            // Когда закончишь тестировать, можно вернуть Login.
+                            startDestination = ScreenPage(screenId = "home")
                         ) {
-//                            animatedComposable<Splash>(
-//                                navController = navController
-//                            ) {
-//                                SplashScreen()
-//                            }
-                            animatedComposable<DebtorsFeed>(
+                            // BDUI использует тот же механизм анимации,
+                            // что и Login, DebtorsFeed и Settings.
+                            animatedComposable<ScreenPage>(
                                 navController = navController
-                            ) {
-                                DebtorsFeedScreen()
+                            ) { page ->
+                                BduiScreenHost(page = page) { config, route ->
+                                    // На этом этапе проверяем, что JSON
+                                    // загрузился и экран получил правильный маршрут.
+                                    //
+                                    // Следующий уровень здесь — BduiScreenContent:
+                                    // он отрисует config.body и config.bottomBar
+                                    // через BduiRenderer и передаст route.readArgs().
+                                    BduiScreenContent(
+                                        config = config,
+                                        page = route,
+                                        navController = navController
+                                    )
+                                }
                             }
-                            animatedComposable<Settings>(
-                                navController = navController
-                            ) {
-                                SettingsScreen()
-                            }
-//                            animatedComposable<Login>(
-//                                navController = navController
-//                            ) {
-//                                LoginScreen()
-//                            }
                         }
 
                         TopAlertHost(
