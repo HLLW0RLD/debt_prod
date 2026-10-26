@@ -3,18 +3,19 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.example.debt"
+    namespace = "com.example.bdui_example"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.debt"
+        applicationId = "com.example.bdui_example"
         minSdk = 25
         targetSdk = 35
-        versionCode = 10
-        versionName = "5.4" // 6.0 после добавления юзеров
+        versionCode = 11
+        versionName = "5.5" // 6.0 после добавления юзеров
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -23,7 +24,7 @@ android {
         outputs.map { output ->
             val outputImpl = output as com.android.build.gradle.internal.api.BaseVariantOutputImpl
 
-            val appName = "debt"
+            val appName = "bdui_example"
 
             val versionName = versionName ?: "unknown"
             val versionCode = versionCode.toString()
@@ -67,9 +68,13 @@ dependencies {
     // coil
     implementation(libs.coil.compose)
 
-    // datastore
+    // datastore asynchronous SharedPreferences
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore)
+
+    // kmp local storage
+    implementation(libs.multiplatform.settings.coroutines)
+    implementation(libs.multiplatform.settings)
 
     // api
     implementation(libs.retrofit)
@@ -79,6 +84,8 @@ dependencies {
     // gson
     implementation(libs.gson)
     implementation(libs.converter.gson)
+
+    // threetenabp Java 8 java.time for API levels lower than 26
     implementation(libs.threetenabp)
 
     // navigation
@@ -94,7 +101,20 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
 
-    // koin
+    // napier logging
+    implementation(libs.napier)
+
+    // security
+    implementation(libs.androidx.security.crypto)
+
+    // Room
+    val room_version = "2.8.3"
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+
+    // koin di
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)

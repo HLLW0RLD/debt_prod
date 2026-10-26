@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Debt"
+rootProject.name = "bdui_example"
 include(":app")
  

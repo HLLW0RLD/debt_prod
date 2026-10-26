@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">debt</string>
+    <string name="app_name">bdui_example</string>
 
     <string name="debt_title">Debtor</string>
     <string name="active">Активные</string>
@@ -26,8 +26,8 @@
     <string name="debtor_label">Должник</string>
     <string name="current_debt_label">Текущий долг</string>
     <string name="amount_label">Сумма</string>
-    <string name="payment_loan">Оплата займа</string>
-    <string name="new_loan">Новый займ</string>
+    <string name="payment_loan">Погашение долга</string>
+    <string name="new_loan">Добавить к долгу</string>
     <string name="transaction_payment">Оплата</string>
     <string name="transaction_debt">Займ</string>
 
@@ -47,6 +47,7 @@
 
     <string name="delete_dialog_title">Удалить запись?</string>
     <string name="delete">Удалить</string>
+    <string name="edit">Редактировать</string>
 
 
 
