@@ -1,58 +1,21 @@
 <resources>
     <string name="app_name">bdui_example</string>
 
-    <string name="debt_title">Debtor</string>
-    <string name="active">Активные</string>
-    <string name="paid">Оплачено</string>
     <string name="tab_all">Все</string>
-    <string name="tab_owe_me">Получу</string>
-    <string name="tab_i_owe">Отдам</string>
-    <string name="empty_debts">Еще нет записей о долгах, создать?</string>
-    <string name="loading_debts">Загрузка долгов...</string>
+    <string name="empty_debts">Еще нет записей, создать?</string>
+    <string name="loading_debts">Загрузка...</string>
     <string name="error_loading">Ошибка загрузки, повторить?</string>
 
     <string name="settings_title">Настройки</string>
     <string name="theme_selection">Выбор темы</string>
-    <string name="debt_calculation">Расчет долгов</string>
     <string name="theme_system">Системная</string>
     <string name="theme_light">Светлая</string>
     <string name="theme_dark">Темная</string>
     <string name="theme_colored">Цветная</string>
-    <string name="auto_delete_paid_debts">Автоудаление выплаченных долгов</string>
-    <string name="auto_calculate_overpayments">Авторасчет переплат и перезаймов</string>
     <string name="nothing">Ничего</string>
 
-    <string name="payment_dialog_title">Операция с долгом</string>
-    <string name="debtor_label">Должник</string>
-    <string name="current_debt_label">Текущий долг</string>
-    <string name="amount_label">Сумма</string>
-    <string name="payment_loan">Погашение долга</string>
-    <string name="new_loan">Добавить к долгу</string>
-    <string name="transaction_payment">Оплата</string>
-    <string name="transaction_debt">Займ</string>
-
-    <string name="debtor_form_title">Запись о должнике</string>
-    <string name="label_name_debt">Имя</string>
-    <string name="label_telegram_nick">Никнейм в Telegram (для перехода в диалог)</string>
-    <string name="label_debt_amount">Сумма долга</string>
-    <string name="label_return_date">Дата возврата</string>
-    <string name="label_comment_optional">Комментарий (необязательно)</string>
-    <string name="radio_owe_to_me">Мне должны</string>
-    <string name="radio_i_owe">Я должен</string>
-
-    <string name="debt_label">Долг: %s₽</string>
-    <string name="loan_date_label">Дата займа: %s</string>
-    <string name="return_date_label">Дата возврата: %s</string>
-    <string name="comment_label">Комментарий: %s</string>
-
-    <string name="delete_dialog_title">Удалить запись?</string>
     <string name="delete">Удалить</string>
     <string name="edit">Редактировать</string>
-
-
-
-    <string name="transaction_type_payment">PAYMENT</string>
-    <string name="transaction_type_debt">DEBT</string>
     <string name="save_button">Сохранить</string>
     <string name="confirm_button">Подтвердить</string>
     <string name="cancel_button">Отмена</string>

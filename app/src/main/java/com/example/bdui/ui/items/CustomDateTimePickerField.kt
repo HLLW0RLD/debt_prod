@@ -23,18 +23,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.bdui_example.R
 import com.example.bdui.domain.utils.getCurrentDateTime
 import com.example.bdui.ui.theme.AppColors
-import com.example.bdui.ui.utils.DateVisualTransformation
 import com.example.bdui.domain.utils.toDateString
 import com.example.bdui.domain.utils.toDateTimestamp
 import kotlin.text.ifEmpty
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CustomDateTimePickerField(
     label: String,
@@ -144,6 +146,46 @@ private fun ReturnCustomPickerDialog(
         ),
     ) {
         DatePicker(state = datePickerState)
+    }
+}
+
+private class DateVisualTransformation : VisualTransformation {
+
+    override fun filter(text: AnnotatedString): TransformedText {
+        val cleanDigits = text.text.filter { it.isDigit() }.take(8)
+
+        val formatted = buildString {
+            for (i in cleanDigits.indices) {
+                append(cleanDigits[i])
+                if ((i == 1 || i == 3) && i != cleanDigits.lastIndex) {
+                    append(".")
+                }
+            }
+        }
+
+        val offsetTranslator = object : OffsetMapping {
+
+            override fun originalToTransformed(offset: Int): Int {
+                return when {
+                    offset <= 2 -> offset
+                    offset <= 4 -> offset + 1
+                    else -> offset + 2
+                }.coerceAtMost(formatted.length)
+            }
+
+            override fun transformedToOriginal(offset: Int): Int {
+                return when {
+                    offset <= 2 -> offset
+                    offset <= 5 -> offset - 1
+                    else -> offset - 2
+                }.coerceAtLeast(0)
+            }
+        }
+
+        return TransformedText(
+            AnnotatedString(formatted),
+            offsetTranslator
+        )
     }
 }
 

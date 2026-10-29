@@ -44,7 +44,7 @@ fun CustomDialog(
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(
-                    text = title ?: stringResource(R.string.delete_dialog_title),
+                    text = title ?: stringResource(R.string.delete),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )

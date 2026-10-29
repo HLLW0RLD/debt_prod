@@ -1,51 +1,146 @@
+
 {
   "schemaVersion": 1,
   "screenId": "home",
   "title": "Главная",
+  "appBar": {
+    "type": "default",
+    "title": "BDUI Playground",
+    "showBackButton": false,
+    "isCentered": true,
+    "showDivider": true,
+    "height": 64,
+    "textSize": 22,
+    "optionsMode": "menu",
+    "optionsIcon": "more_vert",
+    "options": [
+      {
+        "label": "Профиль",
+        "action": {
+          "type": "navigate",
+          "destination": "profile",
+          "args": {
+            "name": "Тестовый пользователь"
+          }
+        }
+      },
+      {
+        "label": "Каталог",
+        "action": {
+          "type": "navigate",
+          "destination": "catalog"
+        }
+      },
+      {
+        "label": "Обратная связь",
+        "action": {
+          "type": "navigate",
+          "destination": "feedback"
+        }
+      }
+    ]
+  },
+  "bottomBar": {
+    "selectedItem": "home",
+    "items": [
+      {
+        "id": "home",
+        "label": "Главная",
+        "icon": "home",
+        "action": {
+          "type": "navigate",
+          "destination": "home"
+        }
+      },
+      {
+        "id": "profile",
+        "label": "Профиль",
+        "icon": "person",
+        "action": {
+          "type": "navigate",
+          "destination": "profile",
+          "args": {
+            "name": "Тестовый пользователь"
+          }
+        }
+      },
+      {
+        "id": "catalog",
+        "label": "Каталог",
+        "icon": "search",
+        "action": {
+          "type": "navigate",
+          "destination": "catalog"
+        }
+      }
+    ]
+  },
   "body": {
     "type": "column",
-    "padding": 8,
+    "padding": 16,
     "spacing": 16,
     "children": [
       {
-        "type": "text",
-        "text": "Это демонстрационный BDUI-экран."
+        "type": "text_view_default",
+        "text": "BDUI Playground",
+        "fontSize": 26,
+        "fontWeight": "bold",
+        "textAlign": "start"
       },
       {
-        "type": "text",
-        "text": "Измени JSON, чтобы изменить интерфейс без создания нового Compose-экрана."
+        "type": "text_view_default",
+        "text": "Тестирование компонентов и настроек интерфейса",
+        "fontSize": 15
       },
       {
         "type": "card",
+        "padding": 16,
+        "spacing": 12,
+        "cornerRadius": 20,
+        "elevation": 2,
+        "backgroundColor": "#FFFFFF",
         "children": [
           {
-            "type": "text",
-            "text": "Как тебя зовут?"
+            "type": "text_view_default",
+            "text": "Переход между экранами",
+            "fontSize": 18,
+            "fontWeight": "bold"
           },
           {
             "type": "textField",
-            "stateKey": "name",
-            "label": "Имя"
+            "stateKey": "userName",
+            "label": "Имя для передачи",
+            "width": "match_parent"
           },
           {
-            "type": "button",
-            "text": "Открыть детали",
+            "type": "button_text_default",
+            "text": "Открыть профиль",
+            "height": 48,
+            "cornerRadius": 12,
             "action": {
               "type": "navigate",
-              "destination": "details",
+              "destination": "profile",
               "args": {
-                "name": "$name"
+                "name": "$userName"
               }
             }
           }
         ]
       },
       {
-        "type": "button",
-        "text": "Настройки",
+        "type": "button_text_ghost",
+        "text": "Открыть каталог",
         "action": {
           "type": "navigate",
-          "destination": "settings"
+          "destination": "catalog"
+        }
+      },
+      {
+        "type": "button_text_ghost",
+        "text": "Открыть форму",
+        "action": {
+          "type": "navigate",
+          "destination": "feedback"
         }
       }
     ]

@@ -8,10 +8,10 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 
 /**
- * Загружает JSON-конфигурации BDUI из assets/bdui/.
+ * Загружает JSON-конфигурации BDUI из assets/bdui/ (позже через API)
  *
- * Loader не отображает UI и не управляет навигацией.
- * Его задача — вернуть проверенную модель BduiConfig.
+ * Loader не отображает UI и не управляет навигацией
+ * Его задача — вернуть проверенную модель ScreenConfig
  */
 class BduiConfigLoader(
     context: Context

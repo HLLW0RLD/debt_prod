@@ -9,8 +9,10 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -31,7 +33,12 @@ fun AnimatedFloatingActionButton(
     containerColor: Color = AppColors.accentPrimary,
     contentColor: Color = AppColors.background,
     enterDelay: Int = 0,
-    startOffsetDp: Float = 80f
+    startOffsetDp: Float = 80f,
+    size: Float = 56f,
+    iconSize: Float = 24f,
+    cornerRadius: Float = 28f,
+    width: Float? = null,
+    height: Float? = null
 ) {
     val density = LocalDensity.current
 
@@ -70,17 +77,18 @@ fun AnimatedFloatingActionButton(
             onClick = onClick,
             containerColor = containerColor,
             contentColor = contentColor,
-            shape = CircleShape,
+            shape = RoundedCornerShape(cornerRadius.dp),
             modifier = Modifier
                 .padding(16.dp)
-                .size(56.dp),
+                .then(if (width != null) Modifier.width(width.dp) else Modifier)
+                .then(if (height != null) Modifier.height(height.dp) else if (width == null) Modifier.size(size.dp) else Modifier.height(size.dp)),
             elevation = FloatingActionButtonDefaults.elevation(8.dp)
         ) {
             Icon(
                 painter = icon,
                 contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.size(24.dp)
+                tint = contentColor,
+                modifier = Modifier.size(iconSize.dp)
             )
         }
     }

@@ -1,8 +1,10 @@
-package com.example.bdui.ui.bdui.renderer
+package com.example.bdui.ui.bdui.renderer.screen
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.bdui.ui.bdui.renderer.components.BduiContainerRegistry
+import com.example.bdui.ui.bdui.renderer.components.BduiElementRegistry
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
@@ -10,7 +12,7 @@ import kotlinx.serialization.json.jsonPrimitive
 @Composable
 fun BduiRenderer(
     node: JsonObject,
-    context: BduiRenderContext,
+    context: BduiScreenContext,
     modifier: Modifier = Modifier
 ) {
     // 1. Определяем тип текущего узла.

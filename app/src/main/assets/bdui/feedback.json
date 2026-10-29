@@ -1,0 +1,152 @@
+
+{
+  "schemaVersion": 1,
+  "screenId": "feedback",
+  "title": "Форма",
+  "appBar": {
+    "type": "default",
+    "title": "Тестовая форма",
+    "showBackButton": true,
+    "isCentered": false,
+    "showDivider": true,
+    "height": 60,
+    "textSize": 21,
+    "optionsMode": "button",
+    "optionsIcon": "home",
+    "action": {
+      "type": "navigate",
+      "destination": "home"
+    }
+  },
+  "bottomBar": {
+    "selectedItem": "feedback",
+    "items": [
+      {
+        "id": "home",
+        "label": "Главная",
+        "icon": "home",
+        "action": {
+          "type": "navigate",
+          "destination": "home"
+        }
+      },
+      {
+        "id": "catalog",
+        "label": "Каталог",
+        "icon": "search",
+        "action": {
+          "type": "navigate",
+          "destination": "catalog"
+        }
+      },
+      {
+        "id": "feedback",
+        "label": "Форма",
+        "icon": "edit",
+        "action": {
+          "type": "navigate",
+          "destination": "feedback"
+        }
+      }
+    ]
+  },
+  "body": {
+    "type": "lazy_column",
+    "padding": 16,
+    "spacing": 16,
+    "children": [
+      {
+        "type": "text_view_default",
+        "text": "Поля ввода",
+        "fontSize": 24,
+        "fontWeight": "bold"
+      },
+      {
+        "type": "text_view_default",
+        "text": "Текст и электронная почта",
+        "fontSize": 15
+      },
+      {
+        "type": "field_input_outlined",
+        "stateKey": "feedbackName",
+        "label": "Ваше имя",
+        "width": "match_parent",
+        "height": 58
+      },
+      {
+        "type": "field_input_outlined",
+        "stateKey": "feedbackEmail",
+        "label": "Электронная почта",
+        "width": "match_parent",
+        "height": 58,
+        "keyboardType": "email"
+      },
+      {
+        "type": "field_input_password",
+        "stateKey": "feedbackPassword",
+        "label": "Пароль",
+        "width": "match_parent",
+        "height": 58
+      },
+      {
+        "type": "text_view_default",
+        "text": "Дата и время",
+        "fontSize": 16,
+        "fontWeight": "medium"
+      },
+      {
+        "type": "field_input_date",
+        "stateKey": "feedbackDate",
+        "label": "Выберите дату",
+        "date": "",
+        "width": "match_parent"
+      },
+      {
+        "type": "field_input_time",
+        "stateKey": "feedbackTime",
+        "label": "Выберите время",
+        "value": "12:30",
+        "width": "match_parent"
+      },
+      {
+        "type": "selection_checkbox_default",
+        "stateKey": "acceptTerms",
+        "text": "Подтверждаю тестовый ввод",
+        "checked": false
+      },
+      {
+        "type": "card",
+        "padding": 16,
+        "spacing": 8,
+        "cornerRadius": 16,
+        "backgroundColor": "#EAF8F1",
+        "children": [
+          {
+            "type": "text_view_default",
+            "text": "Проверка формы",
+            "fontSize": 17,
+            "fontWeight": "bold",
+            "color": "#155B40"
+          },
+          {
+            "type": "text_view_default",
+            "text": "Введи значения в поля, выбери дату и время, затем проверь сохранение значений при взаимодействии с экраном",
+            "fontSize": 14,
+            "color": "#286B51"
+          }
+        ]
+      },
+      {
+        "type": "button_text_default",
+        "text": "Вернуться на главную",
+        "height": 48,
+        "cornerRadius": 12,
+        "containerColor": "#16865D",
+        "action": {
+          "type": "navigate",
+          "destination": "home"
+        }
+      }
+    ]
+  }
+}

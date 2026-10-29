@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 /**
- * Универсальный маршрут для любого BDUI-экрана.
+ * Типизированный маршрут для любого BDUI-экрана (модель для использования в навигации)
  *
  * screenId определяет, какой JSON нужно загрузить.
  * argsJson содержит аргументы конкретного перехода.

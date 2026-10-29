@@ -1,3 +1,5 @@
+@file:JvmName("CustomDropdownKt")
+
 package com.example.bdui.ui.items
 
 import androidx.compose.animation.animateContentSize
@@ -17,7 +19,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,9 +41,8 @@ import androidx.compose.ui.window.Popup
 import com.example.bdui.ui.theme.AppColors
 import com.example.bdui_example.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <T> FilterDropdown(
+fun <T> CustomDropdown(
     currentFilter: T,
     onFilterSelected: (T) -> Unit,
     filterOptions: List<T>,
@@ -75,7 +75,7 @@ fun <T> FilterDropdown(
         ) {
             Text(
                 text = getFilterText(currentFilter),
-                color = AppColors.textPrimary,
+                color = textColor,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium
             )
