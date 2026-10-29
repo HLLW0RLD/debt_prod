@@ -1,76 +1,69 @@
-
 {
   "schemaVersion": 1,
   "screenId": "home",
   "title": "Главная",
   "appBar": {
     "type": "default",
-    "title": "BDUI Playground",
+    "title": "Мои долги",
     "showBackButton": false,
     "isCentered": true,
     "showDivider": true,
-    "height": 64,
-    "textSize": 22,
     "optionsMode": "menu",
-    "optionsIcon": "more_vert",
+    "optionsIcon": "ic_kebab_vertical",
     "options": [
+      {
+        "label": "Новый долг",
+        "action": {
+          "type": "navigate",
+          "destination": "create_debt"
+        }
+      },
       {
         "label": "Профиль",
         "action": {
           "type": "navigate",
           "destination": "profile",
           "args": {
-            "name": "Тестовый пользователь"
+            "name": "Иван"
           }
-        }
-      },
-      {
-        "label": "Каталог",
-        "action": {
-          "type": "navigate",
-          "destination": "catalog"
-        }
-      },
-      {
-        "label": "Обратная связь",
-        "action": {
-          "type": "navigate",
-          "destination": "feedback"
         }
       }
     ]
   },
   "bottomBar": {
+    "backgroundColor": "#302f2f",
+    "selectedColor": "#167D58",
+    "unselectedColor": "#808080",
     "selectedItem": "home",
     "items": [
       {
         "id": "home",
         "label": "Главная",
-        "icon": "home",
+        "icon": "ic_wallet_up",
         "action": {
           "type": "navigate",
           "destination": "home"
         }
       },
       {
+        "id": "debts",
+        "label": "Долги",
+        "icon": "ic_money",
+        "action": {
+          "type": "navigate",
+          "destination": "debts"
+        }
+      },
+      {
         "id": "profile",
         "label": "Профиль",
-        "icon": "person",
+        "icon": "profile",
         "action": {
           "type": "navigate",
           "destination": "profile",
           "args": {
-            "name": "Тестовый пользователь"
+            "name": "Иван"
           }
-        }
-      },
-      {
-        "id": "catalog",
-        "label": "Каталог",
-        "icon": "search",
-        "action": {
-          "type": "navigate",
-          "destination": "catalog"
         }
       }
     ]
@@ -82,65 +75,110 @@
     "children": [
       {
         "type": "text_view_default",
-        "text": "BDUI Playground",
-        "fontSize": 26,
-        "fontWeight": "bold",
-        "textAlign": "start"
+        "text": "Сводка",
+        "fontSize": 24,
+        "fontWeight": "bold"
       },
       {
-        "type": "text_view_default",
-        "text": "Тестирование компонентов и настроек интерфейса",
-        "fontSize": 15
+        "type": "row",
+        "spacing": 12,
+        "children": [
+          {
+            "type": "card",
+            "width": 160,
+            "padding": 14,
+            "cornerRadius": 16,
+            "elevation": 2,
+            "children": [
+              {
+                "type": "text_view_default",
+                "text": "Мне должны",
+                "fontSize": 13
+              },
+              {
+                "type": "text_view_default",
+                "text": "42 500 ₽",
+                "fontSize": 22,
+                "fontWeight": "bold",
+                "color": "#167D58"
+              }
+            ]
+          },
+          {
+            "type": "card",
+            "width": 160,
+            "padding": 14,
+            "cornerRadius": 16,
+            "elevation": 2,
+            "children": [
+              {
+                "type": "text_view_default",
+                "text": "Я должен",
+                "fontSize": 13
+              },
+              {
+                "type": "text_view_default",
+                "text": "8 200 ₽",
+                "fontSize": 22,
+                "fontWeight": "bold",
+                "color": "error"
+              }
+            ]
+          }
+        ]
       },
       {
         "type": "card",
         "padding": 16,
         "spacing": 12,
-        "cornerRadius": 20,
-        "elevation": 2,
-        "backgroundColor": "#FFFFFF",
+        "cornerRadius": 18,
         "children": [
           {
             "type": "text_view_default",
-            "text": "Переход между экранами",
-            "fontSize": 18,
+            "text": "Быстрый переход к долгу",
+            "fontSize": 17,
             "fontWeight": "bold"
           },
           {
-            "type": "textField",
-            "stateKey": "userName",
-            "label": "Имя для передачи",
-            "width": "match_parent"
+            "type": "field_input_outlined",
+            "stateKey": "quickName",
+            "label": "Имя должника"
           },
           {
             "type": "button_text_default",
-            "text": "Открыть профиль",
-            "height": 48,
-            "cornerRadius": 12,
+            "text": "Открыть детали",
+            "containerColor": "#167D58",
             "action": {
               "type": "navigate",
-              "destination": "profile",
+              "destination": "debt_details",
               "args": {
-                "name": "$userName"
+                "debtorName": "$quickName",
+                "amount": "15000",
+                "dueDate": "15.11.2026",
+                "note": "За аренду"
               }
             }
           }
         ]
       },
       {
-        "type": "button_text_ghost",
-        "text": "Открыть каталог",
+        "type": "button_text_icon_default",
+        "text": "Все долги",
+        "icon": "ic_money",
+        "iconPosition": "start",
+        "containerColor": "#167D58",
         "action": {
           "type": "navigate",
-          "destination": "catalog"
+          "destination": "debts"
         }
       },
       {
         "type": "button_text_ghost",
-        "text": "Открыть форму",
+        "text": "Создать новый долг",
+        "contentColor": "#167D58",
         "action": {
           "type": "navigate",
-          "destination": "feedback"
+          "destination": "create_debt"
         }
       }
     ]

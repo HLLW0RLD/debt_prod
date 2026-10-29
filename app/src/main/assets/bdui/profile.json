@@ -1,51 +1,66 @@
-
 {
   "schemaVersion": 1,
   "screenId": "profile",
   "title": "Профиль",
   "appBar": {
-    "type": "search",
-    "title": "Поиск по профилю",
-    "placeholder": "Введите запрос...",
-    "valueKey": "profileSearch",
-    "showBackButton": true,
-    "isCentered": false,
+    "type": "default",
+    "title": "Профиль",
+    "showBackButton": false,
+    "isCentered": true,
     "showDivider": true,
-    "height": 72,
-    "textSize": 18,
-    "backIcon": "arrow_left"
+    "optionsMode": "button",
+    "optionsIcon": "switcher_options",
+    "action": {
+      "type": "navigate",
+      "destination": "edit_profile",
+      "args": {
+        "name": "{{name}}"
+      }
+    }
   },
   "bottomBar": {
+    "backgroundColor": "#302f2f",
+    "selectedColor": "#167D58",
+    "unselectedColor": "#808080",
     "selectedItem": "profile",
     "items": [
       {
         "id": "home",
         "label": "Главная",
-        "icon": "home",
+        "icon": "ic_wallet_up",
         "action": {
           "type": "navigate",
           "destination": "home"
         }
       },
       {
+        "id": "debts",
+        "label": "Долги",
+        "icon": "ic_money",
+        "action": {
+          "type": "navigate",
+          "destination": "debts"
+        }
+      },
+      {
         "id": "profile",
         "label": "Профиль",
-        "icon": "person",
+        "icon": "profile",
         "action": {
           "type": "navigate",
           "destination": "profile",
           "args": {
-            "name": "Тестовый пользователь"
+            "name": "{{name}}"
           }
         }
       },
       {
-        "id": "catalog",
-        "label": "Каталог",
-        "icon": "search",
+        "id": "feedback",
+        "label": "Отзыв",
+        "icon": "ic_options",
         "action": {
           "type": "navigate",
-          "destination": "catalog"
+          "destination": "feedback"
         }
       }
     ]
@@ -56,99 +71,45 @@
     "spacing": 16,
     "children": [
       {
-        "type": "text_view_default",
-        "text": "Профиль пользователя",
-        "fontSize": 24,
-        "fontWeight": "bold"
-      },
-      {
         "type": "card",
         "padding": 20,
-        "spacing": 12,
-        "cornerRadius": 24,
-        "backgroundColor": "#EAF2FF",
+        "spacing": 8,
+        "cornerRadius": 20,
         "children": [
           {
             "type": "text_view_default",
-            "text": "Имя пользователя",
+            "text": "Привет, {{name}}",
+            "fontSize": 24,
+            "fontWeight": "bold"
+          },
+          {
+            "type": "text_view_default",
+            "text": "Аргумент пришёл из navigate.args",
             "fontSize": 14
-          },
-          {
-            "type": "text_view_default",
-            "text": "{{name}}",
-            "fontSize": 22,
-            "fontWeight": "bold",
-            "color": "#174EA6"
-          },
-          {
-            "type": "text_view_default",
-            "text": "Имя передаётся через аргументы маршрута",
-            "fontSize": 13,
-            "color": "#53627A"
           }
         ]
       },
       {
-        "type": "text_view_default",
-        "text": "Карточки с разными размерами",
-        "fontSize": 18,
-        "fontWeight": "bold"
+        "type": "selection_switch_default",
+        "stateKey": "notifications",
+        "text": "Уведомления о сроках",
+        "checked": true,
+        "checkedColor": "#167D58"
       },
       {
-        "type": "row",
-        "spacing": 12,
-        "horizontalArrangement": "spaceBetween",
-        "children": [
-          {
-            "type": "card",
-            "width": 150,
-            "padding": 12,
-            "cornerRadius": 12,
-            "backgroundColor": "#FFFFFF",
-            "children": [
-              {
-                "type": "text_view_default",
-                "text": "Записи",
-                "fontSize": 14
-              },
-              {
-                "type": "text_view_default",
-                "text": "24",
-                "fontSize": 28,
-                "fontWeight": "bold",
-                "color": "#167D58"
-              }
-            ]
-          },
-          {
-            "type": "card",
-            "width": 150,
-            "padding": 12,
-            "cornerRadius": 12,
-            "backgroundColor": "#FFFFFF",
-            "children": [
-              {
-                "type": "text_view_default",
-                "text": "Активность",
-                "fontSize": 14
-              },
-              {
-                "type": "text_view_default",
-                "text": "Сегодня",
-                "fontSize": 18,
-                "fontWeight": "bold",
-                "color": "#6741D9"
-              }
-            ]
-          }
-        ]
+        "type": "selection_switch_default",
+        "stateKey": "darkHint",
+        "text": "Тёмная тема (демо state)",
+        "checked": false,
+        "checkedColor": "#167D58"
       },
       {
         "type": "button_text_default",
-        "text": "Перейти к настройкам каталога",
+        "text": "К списку долгов",
+        "containerColor": "#167D58",
         "action": {
           "type": "navigate",
-          "destination": "catalog"
+          "destination": "debts"
         }
       }
     ]

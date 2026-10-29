@@ -73,8 +73,10 @@ object BduiElementRegistry {
             val bg = node["backgroundColor"]?.let { parseBduiColor((it as? JsonPrimitive)?.contentOrNull, Color.Transparent) } ?: Color.Transparent
             val corner = node.float("cornerRadius", 0f)
             val widthModifier = sizeModifier(node.string("width"), node.string("height"))
-            val styled = modifier.then(widthModifier)
-                .clip(RoundedCornerShape(corner.dp)).background(bg)
+            val styled = modifier
+                .then(widthModifier)
+                .clip(RoundedCornerShape(corner.dp))
+                .background(bg)
                 .padding(node.paddingValues())
                 .alpha(if (node.boolean("enabled", true)) 1f else 0.55f)
             Text(
@@ -109,42 +111,82 @@ object BduiElementRegistry {
                     contentColor = node.color("contentColor", androidx.compose.material3.MaterialTheme.colorScheme.onPrimary)
                 ),
                 contentPadding = node.paddingValues("contentPadding", 16)
-            ) { Text(context.resolve(node.string("text")), fontSize = node.float("fontSize", 16f).sp, fontWeight = fontWeight(node.string("fontWeight", "medium"))) }
+            ) {
+                Text(
+                    text = context.resolve(node.string("text")),
+                    fontSize = node.float("fontSize", 16f).sp,
+                    fontWeight = fontWeight(node.string("fontWeight", "medium"))
+                )
+            }
         },
         "button_icon_default" to { node, context, modifier ->
             val size = node.float("size", 48f).dp
             Button(
-                onClick = { runAction(node, context) }, enabled = node.boolean("enabled", true),
-                modifier = modifier.size(size), shape = RoundedCornerShape(node.float("cornerRadius", 12f).dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = node.color("containerColor", AppColors.accentPrimary),
-                    contentColor = node.color("contentColor", androidx.compose.material3.MaterialTheme.colorScheme.onPrimary)
-                ), contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp)
-            ) { BduiIcon(node.string("icon"), node.color("contentColor", androidx.compose.material3.MaterialTheme.colorScheme.onPrimary)) }
-        },
-        "button_text_icon_default" to { node, context, modifier ->
-            Button(
-                onClick = { runAction(node, context) }, enabled = node.boolean("enabled", true), modifier = modifier,
+                onClick = { runAction(node, context) },
+                enabled = node.boolean("enabled", true),
+                modifier = modifier.size(size),
                 shape = RoundedCornerShape(node.float("cornerRadius", 12f).dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = node.color("containerColor", AppColors.accentPrimary),
                     contentColor = node.color("contentColor", androidx.compose.material3.MaterialTheme.colorScheme.onPrimary)
-                ), contentPadding = node.paddingValues("contentPadding", 16)
+                ),
+                contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp)
+            ) {
+                BduiIcon(
+                    name = node.string("icon"),
+                    tint = node.color(
+                        "contentColor",
+                        androidx.compose.material3.MaterialTheme.colorScheme.onPrimary
+                    )
+                )
+            }
+        },
+        "button_text_icon_default" to { node, context, modifier ->
+            Button(
+                onClick = { runAction(node, context) },
+                enabled = node.boolean("enabled", true),
+                modifier = modifier,
+                shape = RoundedCornerShape(node.float("cornerRadius", 12f).dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = node.color("containerColor", AppColors.accentPrimary),
+                    contentColor = node.color("contentColor", androidx.compose.material3.MaterialTheme.colorScheme.onPrimary)
+                ),
+                contentPadding = node.paddingValues("contentPadding", 16)
             ) {
                 val iconFirst = node.string("iconPosition", "start") != "end"
-                if (iconFirst) BduiIcon(node.string("icon"), node.color("contentColor", androidx.compose.material3.MaterialTheme.colorScheme.onPrimary), modifier = Modifier.padding(end = 8.dp))
-                Text(context.resolve(node.string("text")))
-                if (!iconFirst) BduiIcon(node.string("icon"), node.color("contentColor", androidx.compose.material3.MaterialTheme.colorScheme.onPrimary), modifier = Modifier.padding(start = 8.dp))
+                if (iconFirst) BduiIcon(
+                    name = node.string("icon"),
+                    tint = node.color("contentColor", androidx.compose.material3.MaterialTheme.colorScheme.onPrimary),
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+                Text(
+                    text = context.resolve(node.string("text"))
+                )
+                if (!iconFirst) BduiIcon(
+                    name = node.string("icon"),
+                    tint = node.color("contentColor", androidx.compose.material3.MaterialTheme.colorScheme.onPrimary),
+                    modifier = Modifier.padding(start = 8.dp)
+                )
             }
         },
         "button_text_ghost" to { node, context, modifier ->
-            TextButton(onClick = { runAction(node, context) }, enabled = node.boolean("enabled", true), modifier = modifier) {
-                Text(context.resolve(node.string("text")), color = node.color("contentColor", AppColors.accentPrimary), fontSize = node.float("fontSize", 16f).sp)
+            TextButton(
+                onClick = { runAction(node, context) },
+                enabled = node.boolean("enabled", true),
+                modifier = modifier) {
+                Text(
+                    text = context.resolve(node.string("text")),
+                    color = node.color("contentColor", AppColors.accentPrimary),
+                    fontSize = node.float("fontSize", 16f).sp
+                )
             }
         },
         "button_icon_ghost" to { node, context, modifier ->
             IconButton(onClick = { runAction(node, context) }, enabled = node.boolean("enabled", true), modifier = modifier.then(node["size"]?.let { Modifier.size(node.float("size", 48f).dp) } ?: Modifier)) {
-                BduiIcon(node.string("icon"), node.color("contentColor", AppColors.accentPrimary))
+                BduiIcon(
+                    name = node.string("icon"),
+                    tint = node.color("contentColor", AppColors.accentPrimary)
+                )
             }
         },
         "button_floating_action" to { node, context, modifier ->
@@ -191,7 +233,12 @@ object BduiElementRegistry {
                     shape = node.shape("cornerRadius", 25f), modifier = modifier.then(sizeModifier(node.string("width"), node.string("height")))
                 )
             } else {
-                CustomOutlinedTextField(value = value, label = context.resolve(node.string("label", "Дата")), onValueChange = { context.values[key] = it }, modifier = modifier)
+                CustomOutlinedTextField(
+                    value = value,
+                    label = context.resolve(node.string("label", "Дата")),
+                    onValueChange = { context.values[key] = it },
+                    modifier = modifier
+                )
             }
         },
         "field_input_time" to { node, context, modifier ->
@@ -201,16 +248,30 @@ object BduiElementRegistry {
             val value = context.values[key].orEmpty()
             Box(modifier = modifier.then(sizeModifier(node.string("width", "match_parent"), node.string("height")))) {
                 CustomOutlinedTextField(
-                    value = value, label = context.resolve(node.string("label", "Время")), readOnly = true,
-                    enabled = node.boolean("enabled", true), isError = node.boolean("isError", false),
-                    onValueChange = { context.values[key] = it }, modifier = Modifier.fillMaxWidth()
+                    value = value,
+                    label = context.resolve(node.string("label", "Время")),
+                    readOnly = true,
+                    enabled = node.boolean("enabled", true),
+                    isError = node.boolean("isError", false),
+                    onValueChange = { context.values[key] = it },
+                    modifier = Modifier.fillMaxWidth()
                 )
-                Box(Modifier.matchParentSize().clickable(enabled = node.boolean("enabled", true)) {
-                    val parts = value.split(":")
-                    val hour = parts.getOrNull(0)?.toIntOrNull() ?: Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-                    val minute = parts.getOrNull(1)?.toIntOrNull() ?: Calendar.getInstance().get(Calendar.MINUTE)
-                    TimePickerDialog(contextAndroid, { _, h, m -> context.values[key] = "%02d:%02d".format(h, m) }, hour, minute, true).show()
-                })
+                Box(Modifier
+                    .matchParentSize()
+                    .clickable(enabled = node.boolean("enabled", true)) {
+                        val parts = value.split(":")
+                        val hour = parts.getOrNull(0)?.toIntOrNull() ?: Calendar.getInstance()
+                            .get(Calendar.HOUR_OF_DAY)
+                        val minute = parts.getOrNull(1)?.toIntOrNull() ?: Calendar.getInstance()
+                            .get(Calendar.MINUTE)
+                        TimePickerDialog(
+                            contextAndroid,
+                            { _, h, m -> context.values[key] = "%02d:%02d".format(h, m) },
+                            hour,
+                            minute,
+                            true
+                        ).show()
+                    })
             }
         },
         "field_input_dropdown" to { node, context, modifier ->
@@ -245,7 +306,8 @@ object BduiElementRegistry {
                 selected = context.values[key] == value,
                 text = context.resolve(node.string("text")),
                 color = node["color"]?.let { parseBduiColor((it as? JsonPrimitive)?.contentOrNull, AppColors.accentPrimary) },
-                onClick = { context.values[key] = value }, modifier = modifier
+                onClick = { context.values[key] = value },
+                modifier = modifier
             )
         },
         "selection_switch_default" to { node, context, modifier ->
@@ -253,20 +315,45 @@ object BduiElementRegistry {
             val checked = context.values[key]?.toBooleanStrictOrNull() ?: node.boolean("checked", false)
             Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                 if (node.string("text").isNotBlank()) Text(context.resolve(node.string("text")), modifier = Modifier.weight(1f))
-                Switch(checked = checked, enabled = node.boolean("enabled", true), onCheckedChange = { context.values[key] = it.toString() }, colors = SwitchDefaults.colors(checkedThumbColor = node.color("checkedColor", AppColors.accentPrimary), uncheckedThumbColor = node.color("uncheckedColor", AppColors.surfaceSecondary)))
+                // TODO make custom
+                Switch(
+                    checked = checked,
+                    enabled = node.boolean("enabled", true),
+                    onCheckedChange = { context.values[key] = it.toString() },
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = node.color("checkedColor", AppColors.accentPrimary),
+                        uncheckedThumbColor = node.color("uncheckedColor", AppColors.surfaceSecondary),
+                        checkedTrackColor = AppColors.surface,
+                        uncheckedTrackColor = AppColors.surface,
+                        checkedBorderColor = AppColors.surface,
+                        uncheckedBorderColor = AppColors.surface,
+                    )
+                )
             }
         },
         "selection_checkbox_default" to { node, context, modifier ->
             val key = node.string("stateKey")
             val checked = context.values[key]?.toBooleanStrictOrNull() ?: node.boolean("checked", false)
             Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(checked = checked, enabled = node.boolean("enabled", true), onCheckedChange = { context.values[key] = it.toString() }, colors = CheckboxDefaults.colors(checkedColor = node.color("checkedColor", AppColors.accentPrimary), uncheckedColor = node.color("uncheckedColor", AppColors.surfaceSecondary)))
+                // TODO make custom
+                Checkbox(
+                    checked = checked,
+                    enabled = node.boolean("enabled", true),
+                    onCheckedChange = { context.values[key] = it.toString() },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = node.color(
+                            "checkedColor",
+                            AppColors.accentPrimary
+                        ), uncheckedColor = node.color("uncheckedColor", AppColors.surfaceSecondary)
+                    )
+                )
                 if (node.string("text").isNotBlank()) Text(context.resolve(node.string("text")))
             }
         },
         "dialog_view_default" to { node, context, _ ->
             var visible by remember(node) { mutableStateOf(node.boolean("visible", true)) }
             if (visible) {
+                // TODO make custom
                 AlertDialog(
                     onDismissRequest = { visible = false; runNamedAction(node, "dismissAction", context) },
                     title = node.string("title").takeIf { it.isNotBlank() }?.let { { Text(context.resolve(it)) } },
@@ -278,7 +365,16 @@ object BduiElementRegistry {
         },
         // Backward-compatible button config.
         "button" to { node, context, modifier ->
-            Button(onClick = { runAction(node, context) }, modifier = modifier.fillMaxWidth()) { Text(context.resolve(node.string("text"))) }
+            Button(
+                onClick = { runAction(node, context) },
+                modifier = modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = context.resolve(
+                        node.string("text")
+                    )
+                )
+            }
         }
     )
 
@@ -335,7 +431,12 @@ object BduiElementRegistry {
                 modifier = Modifier.fillMaxWidth()
             )
             if (node.boolean("isError", false) && node.string("errorText").isNotBlank()) {
-                Text(context.resolve(node.string("errorText")), color = AppColors.error, fontSize = 12.sp, modifier = Modifier.padding(start = 12.dp, top = 4.dp))
+                Text(
+                    text = context.resolve(node.string("errorText")),
+                    color = AppColors.error,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(start = 12.dp, top = 4.dp)
+                )
             }
         }
     }

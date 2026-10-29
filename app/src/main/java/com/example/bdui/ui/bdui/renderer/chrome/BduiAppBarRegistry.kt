@@ -1,7 +1,9 @@
 package com.example.bdui.ui.bdui.renderer.chrome
 
 import android.content.Context
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
@@ -15,6 +17,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import com.example.bdui.ui.bdui.renderer.screen.BduiScreenContext
 import com.example.bdui.ui.items.CustomAppBar
 import kotlinx.serialization.json.JsonNull
@@ -108,77 +112,83 @@ object BduiAppBarRegistry {
         val backPainter = painterForName(androidContext, node["backIcon"]?.jsonPrimitive?.contentOrNull ?: "arrow_left", painterResource(R.drawable.arrow_left))
         val optionsPainter = painterForName(androidContext, node["optionsIcon"]?.jsonPrimitive?.contentOrNull ?: "switcher_options", painterResource(R.drawable.switcher_options))
 
-        CustomAppBar(
-            type = type,
-            title = title,
-            showBack = showBackButton,
-            showOptions = showOptions,
-            isCentered = isCentered,
-            showDivider = showDivider,
-            height = height,
-            textSize = textSize,
-            query = query,
-            placeholder = placeholder,
-            backgroundColor = node["backgroundColor"]?.let { com.example.bdui.ui.bdui.renderer.components.parseBduiColor(it.jsonPrimitive.contentOrNull, AppColors.background) } ?: AppColors.background,
-            titleColor = node["titleColor"]?.let { com.example.bdui.ui.bdui.renderer.components.parseBduiColor(it.jsonPrimitive.contentOrNull, AppColors.textPrimary) } ?: AppColors.textPrimary,
-            backIconTint = node["backIconTint"]?.let { com.example.bdui.ui.bdui.renderer.components.parseBduiColor(it.jsonPrimitive.contentOrNull, AppColors.textPrimary) } ?: AppColors.textPrimary,
-            optionsIconTint = node["optionsIconTint"]?.let { com.example.bdui.ui.bdui.renderer.components.parseBduiColor(it.jsonPrimitive.contentOrNull, AppColors.textPrimary) } ?: AppColors.textPrimary,
-            backIcon = backPainter,
-            optionsIcon = optionsPainter,
-            onQueryChange = if (type == "search") {
-                { value -> context.values[key] = value }
-            } else {
-                null
-            },
-            onBackClick = {
-                context.navController.popBackStack()
-            },
-            onOptionsClick = {
-                when (optionsMode) {
-                    "menu" -> menuExpanded = true
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            CustomAppBar(
+                type = type,
+                title = title,
+                showBack = showBackButton,
+                showOptions = showOptions,
+                isCentered = isCentered,
+                showDivider = showDivider,
+                height = height,
+                textSize = textSize,
+                query = query,
+                placeholder = placeholder,
+                backgroundColor = node["backgroundColor"]?.let { com.example.bdui.ui.bdui.renderer.components.parseBduiColor(it.jsonPrimitive.contentOrNull, AppColors.background) } ?: AppColors.background,
+                titleColor = node["titleColor"]?.let { com.example.bdui.ui.bdui.renderer.components.parseBduiColor(it.jsonPrimitive.contentOrNull, AppColors.textPrimary) } ?: AppColors.textPrimary,
+                backIconTint = node["backIconTint"]?.let { com.example.bdui.ui.bdui.renderer.components.parseBduiColor(it.jsonPrimitive.contentOrNull, AppColors.textPrimary) } ?: AppColors.textPrimary,
+                optionsIconTint = node["optionsIconTint"]?.let { com.example.bdui.ui.bdui.renderer.components.parseBduiColor(it.jsonPrimitive.contentOrNull, AppColors.textPrimary) } ?: AppColors.textPrimary,
+                backIcon = backPainter,
+                optionsIcon = optionsPainter,
+                onQueryChange = if (type == "search") {
+                    { value -> context.values[key] = value }
+                } else {
+                    null
+                },
+                onBackClick = {
+                    context.navController.popBackStack()
+                },
+                onOptionsClick = {
+                    when (optionsMode) {
+                        "menu" -> menuExpanded = true
 
-                    "button" -> {
-                        val action = node["action"] as? JsonObject
-                        action?.let {
-                            context.actionHandler.executeNavigationAction(it)
+                        "button" -> {
+                            val action = node["action"] as? JsonObject
+                            action?.let {
+                                context.actionHandler.executeNavigationAction(it)
+                            }
                         }
                     }
                 }
-            }
-        )
+            )
 
-        if (showOptions && optionsMode == "menu") {
-            Box {
-                DropdownMenu(
-                    expanded = menuExpanded,
-                    onDismissRequest = { menuExpanded = false }
-                ) {
-                    node["options"]
-                        ?.jsonArray
-                        ?.forEach { element ->
-                            val option = element as? JsonObject
-                                ?: return@forEach
+            if (showOptions && optionsMode == "menu") {
+                Box {
+                    DropdownMenu(
+                        expanded = menuExpanded,
+                        onDismissRequest = { menuExpanded = false }
+                    ) {
+                        node["options"]
+                            ?.jsonArray
+                            ?.forEach { element ->
+                                val option = element as? JsonObject
+                                    ?: return@forEach
 
-                            val label = option["label"]
-                                ?.jsonPrimitive
-                                ?.contentOrNull
-                                .orEmpty()
+                                val label = option["label"]
+                                    ?.jsonPrimitive
+                                    ?.contentOrNull
+                                    .orEmpty()
 
-                            val action = option["action"] as? JsonObject
+                                val action = option["action"] as? JsonObject
 
-                            DropdownMenuItem(
-                                text = {
-                                    Text(context.resolve(label))
-                                },
-                                onClick = {
-                                    menuExpanded = false
-                                    action?.let {
-                                        context.actionHandler
-                                            .executeNavigationAction(it)
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(context.resolve(label))
+                                    },
+                                    onClick = {
+                                        menuExpanded = false
+                                        action?.let {
+                                            context.actionHandler
+                                                .executeNavigationAction(it)
+                                        }
                                     }
-                                }
-                            )
-                        }
+                                )
+                            }
+                    }
                 }
             }
         }

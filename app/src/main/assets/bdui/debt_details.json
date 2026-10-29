@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "screenId": "debt_details",
+  "title": "Детали долга",
+  "appBar": {
+    "type": "default",
+    "title": "{{debtorName}}",
+    "showBackButton": true,
+    "backIcon": "arrow_left",
+    "isCentered": true,
+    "showDivider": true,
+    "optionsMode": "button",
+    "optionsIcon": "ic_options",
+    "action": {
+      "type": "navigate",
+      "destination": "create_debt"
+    }
+  },
+  "body": {
+    "type": "column",
+    "padding": 16,
+    "spacing": 16,
+    "children": [
+      {
+        "type": "card",
+        "padding": 20,
+        "spacing": 10,
+        "cornerRadius": 20,
+        "elevation": 2,
+        "children": [
+          {
+            "type": "text_view_default",
+            "text": "Должник",
+            "fontSize": 13,
+            "color": "textSecondary"
+          },
+          {
+            "type": "text_view_default",
+            "text": "{{debtorName}}",
+            "fontSize": 24,
+            "fontWeight": "bold"
+          },
+          {
+            "type": "text_view_default",
+            "text": "Сумма",
+            "fontSize": 13,
+            "color": "textSecondary"
+          },
+          {
+            "type": "text_view_default",
+            "text": "{{amount}} ₽",
+            "fontSize": 28,
+            "fontWeight": "bold",
+            "color": "#167D58"
+          },
+          {
+            "type": "text_view_default",
+            "text": "Срок: {{dueDate}}",
+            "fontSize": 15
+          },
+          {
+            "type": "text_view_default",
+            "text": "{{note}}",
+            "fontSize": 15
+          }
+        ]
+      },
+      {
+        "type": "button_text_default",
+        "text": "Редактировать (форма)",
+        "containerColor": "#167D58",
+        "action": {
+          "type": "navigate",
+          "destination": "create_debt",
+          "args": {
+            "debtorName": "{{debtorName}}",
+            "amount": "{{amount}}",
+            "dueDate": "{{dueDate}}",
+            "note": "{{note}}"
+          }
+        }
+      },
+      {
+        "type": "button_text_ghost",
+        "text": "К списку долгов",
+        "action": {
+          "type": "navigate",
+          "destination": "debts"
+        }
+      }
+    ]
+  }
+}

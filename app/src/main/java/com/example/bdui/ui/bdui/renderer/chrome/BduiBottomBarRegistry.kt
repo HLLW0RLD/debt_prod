@@ -1,9 +1,11 @@
 package com.example.bdui.ui.bdui.renderer.chrome
 
 import androidx.compose.runtime.Composable
+import com.example.bdui.ui.bdui.renderer.components.color
 import com.example.bdui.ui.bdui.renderer.screen.BduiScreenContext
 import com.example.bdui.ui.items.CustomBottomBar
 import com.example.bdui.ui.items.CustomBottomBarItem
+import com.example.bdui.ui.theme.AppColors
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonArray
@@ -38,6 +40,9 @@ object BduiBottomBarRegistry {
         CustomBottomBar(
             items = items,
             selectedItem = selectedItem,
+            backgroundColor = node.color("backgroundColor", AppColors.surface),
+            selectedColor = node.color("selectedColor", AppColors.accentPrimary),
+            unselectedColor = node.color("unselectedColor", AppColors.textSecondary),
             onItemClick = { selected ->
                 val item = node["items"]
                     ?.jsonArray

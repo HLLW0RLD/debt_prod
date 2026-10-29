@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "screenId": "debts",
+  "title": "Долги",
+  "appBar": {
+    "type": "search",
+    "showBackButton": false,
+    "valueKey": "searchQuery",
+    "placeholder": "Поиск по имени",
+    "showDivider": true
+  },
+  "bottomBar": {
+    "selectedItem": "debts",
+    "backgroundColor": "#302f2f",
+    "selectedColor": "#167D58",
+    "unselectedColor": "#808080",
+    "items": [
+      {
+        "id": "home",
+        "label": "Главная",
+        "icon": "ic_wallet_up",
+        "action": {
+          "type": "navigate",
+          "destination": "home"
+        }
+      },
+      {
+        "id": "debts",
+        "label": "Долги",
+        "icon": "ic_money",
+        "action": {
+          "type": "navigate",
+          "destination": "debts"
+        }
+      },
+      {
+        "id": "profile",
+        "label": "Профиль",
+        "icon": "profile",
+        "action": {
+          "type": "navigate",
+          "destination": "profile",
+          "args": {
+            "name": "Иван"
+          }
+        }
+      }
+    ]
+  },
+  "body": {
+    "type": "column",
+    "padding": 16,
+    "spacing": 12,
+    "children": [
+      {
+        "type": "text_view_default",
+        "text": "Активные",
+        "fontSize": 20,
+        "fontWeight": "bold"
+      },
+      {
+        "type": "card",
+        "padding": 14,
+        "spacing": 8,
+        "cornerRadius": 16,
+        "children": [
+          {
+            "type": "text_view_default",
+            "text": "Алексей",
+            "fontSize": 17,
+            "fontWeight": "bold"
+          },
+          {
+            "type": "text_view_default",
+            "text": "15 000 ₽ · до 15.11.2026",
+            "fontSize": 14
+          },
+          {
+            "type": "button_text_ghost",
+            "text": "Открыть",
+            "contentColor": "#167D58",
+            "action": {
+              "type": "navigate",
+              "destination": "debt_details",
+              "args": {
+                "debtorName": "Алексей",
+                "amount": "15000",
+                "dueDate": "15.11.2026",
+                "note": "За аренду"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "card",
+        "padding": 14,
+        "spacing": 8,
+        "cornerRadius": 16,
+        "children": [
+          {
+            "type": "text_view_default",
+            "text": "Мария",
+            "fontSize": 17,
+            "fontWeight": "bold"
+          },
+          {
+            "type": "text_view_default",
+            "text": "27 500 ₽ · до 01.12.2026",
+            "fontSize": 14
+          },
+          {
+            "type": "button_text_ghost",
+            "text": "Открыть",
+            "contentColor": "#167D58",
+            "action": {
+              "type": "navigate",
+              "destination": "debt_details",
+              "args": {
+                "debtorName": "Мария",
+                "amount": "27500",
+                "dueDate": "01.12.2026",
+                "note": "Заём на ремонт"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "button_text_default",
+        "text": "Добавить долг",
+        "containerColor": "#167D58",
+        "action": {
+          "type": "navigate",
+          "destination": "create_debt"
+        }
+      }
+    ]
+  }
+}

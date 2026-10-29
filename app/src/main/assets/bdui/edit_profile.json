@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "screenId": "edit_profile",
+  "title": "Редактирование профиля",
+  "appBar": {
+    "type": "default",
+    "title": "Редактирование профиля",
+    "showBackButton": true,
+    "backIcon": "arrow_left",
+    "isCentered": true,
+    "showDivider": true,
+    "optionsMode": "button",
+    "optionsIcon": "ic_options",
+    "action": {
+      "type": "navigate",
+      "destination": "profile",
+      "args": {
+        "name": "$profileName"
+      }
+    }
+  },
+  "bottomBar": {
+    "backgroundColor": "#302f2f",
+    "selectedColor": "#167D58",
+    "unselectedColor": "#808080",
+    "selectedItem": "profile",
+    "items": [
+      {
+        "id": "home",
+        "label": "Главная",
+        "icon": "ic_wallet_up",
+        "action": {
+          "type": "navigate",
+          "destination": "home"
+        }
+      },
+      {
+        "id": "debts",
+        "label": "Долги",
+        "icon": "ic_money",
+        "action": {
+          "type": "navigate",
+          "destination": "debts"
+        }
+      },
+      {
+        "id": "profile",
+        "label": "Профиль",
+        "icon": "profile",
+        "action": {
+          "type": "navigate",
+          "destination": "profile",
+          "args": {
+            "name": "{{name}}"
+          }
+        }
+      }
+    ]
+  },
+  "body": {
+    "type": "column",
+    "padding": 16,
+    "spacing": 14,
+    "children": [
+      {
+        "type": "text_view_default",
+        "text": "Данные профиля",
+        "fontSize": 20,
+        "fontWeight": "bold"
+      },
+      {
+        "type": "field_input_outlined",
+        "stateKey": "profileName",
+        "label": "Имя",
+        "value": "{{name}}"
+      },
+      {
+        "type": "button_text_default",
+        "text": "Сохранить изменения",
+        "containerColor": "#167D58",
+        "action": {
+          "type": "navigate",
+          "destination": "profile",
+          "args": {
+            "name": "$profileName"
+          }
+        }
+      },
+      {
+        "type": "button_text_ghost",
+        "text": "Отмена",
+        "action": {
+          "type": "navigate",
+          "destination": "profile",
+          "args": {
+            "name": "{{name}}"
+          }
+        }
+      }
+    ]
+  }
+}
