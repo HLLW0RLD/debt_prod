@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "screenId": "edit_debt",
+  "title": "Новый долг",
+  "appBar": {
+    "type": "default",
+    "title": "Новый долг",
+    "showBackButton": true,
+    "backIcon": "arrow_left",
+    "isCentered": true,
+    "showDivider": true
+  },
+  "body": {
+    "type": "column",
+    "padding": 16,
+    "spacing": 14,
+    "children": [
+      {
+        "type": "text_view_default",
+        "text": "Данные долга",
+        "fontSize": 20,
+        "fontWeight": "bold"
+      },
+      {
+        "type": "field_input_outlined",
+        "stateKey": "debtorName",
+        "label": "Имя"
+      },
+      {
+        "type": "field_input_outlined",
+        "stateKey": "amount",
+        "label": "Сумма, ₽",
+        "keyboardType": "number"
+      },
+      {
+        "type": "field_input_date",
+        "stateKey": "dueDate",
+        "label": "Срок возврата",
+        "date": ""
+      },
+      {
+        "type": "field_input_outlined",
+        "stateKey": "note",
+        "label": "Комментарий",
+        "singleLine": false,
+        "minLines": 2,
+        "maxLines": 4
+      },
+      {
+        "type": "field_input_dropdown",
+        "stateKey": "currency",
+        "options": [
+          { "value": "RUB", "label": "Рубли" },
+          { "value": "USD", "label": "Доллары" },
+          { "value": "EUR", "label": "Евро" }
+        ]
+      },
+      {
+        "type": "selection_radio_default",
+        "stateKey": "direction",
+        "value": "they_owe",
+        "text": "Мне должны"
+      },
+      {
+        "type": "selection_radio_default",
+        "stateKey": "direction",
+        "value": "i_owe",
+        "text": "Я должен"
+      },
+      {
+        "type": "selection_switch_default",
+        "stateKey": "remind",
+        "text": "Напомнить о сроке",
+        "checked": true
+      },
+      {
+        "type": "selection_checkbox_default",
+        "stateKey": "confirm",
+        "text": "Данные верны",
+        "checked": false
+      },
+      {
+        "type": "button_text_default",
+        "text": "Сохранить изменения",
+        "action": {
+          "type": "update_item",
+          "key": "records",
+          "stateKey": "records",
+          "id": "$id",
+          "item": {
+            "debtorName": "$debtorName",
+            "amount": "$amount",
+            "dueDate": "$dueDate",
+            "note": "$note",
+            "currency": "$currency",
+            "direction": "$direction",
+            "remind": "$remind"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -81,15 +81,21 @@
       },
       {
         "type": "button_text_default",
-        "text": "Сохранить и открыть",
+        "text": "Сохранить",
         "action": {
-          "type": "navigate",
-          "destination": "debt_details",
-          "args": {
+          "type": "append_item",
+          "key": "records",
+          "stateKey": "records",
+          "insertPosition": "start",
+          "item": {
+            "id": "$debtorName",
             "debtorName": "$debtorName",
             "amount": "$amount",
             "dueDate": "$dueDate",
-            "note": "$note"
+            "note": "$note",
+            "currency": "$currency",
+            "direction": "$direction",
+            "remind": "$remind"
           }
         }
       }

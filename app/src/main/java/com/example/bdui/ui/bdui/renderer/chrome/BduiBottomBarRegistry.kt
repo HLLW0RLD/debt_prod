@@ -56,7 +56,10 @@ object BduiBottomBarRegistry {
                 val action = item?.get("action") as? JsonObject
 
                 if (action != null) {
-                    context.actionHandler.executeTabNavigationAction(action)
+                    context.executeAction(
+                        action = action,
+                        isTabNavigation = true
+                    )
                 }
             }
         )

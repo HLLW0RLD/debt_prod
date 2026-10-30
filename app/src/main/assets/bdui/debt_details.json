@@ -4,7 +4,7 @@
   "title": "Детали долга",
   "appBar": {
     "type": "default",
-    "title": "{{debtorName}}",
+    "title": "{{record.debtorName}}",
     "showBackButton": true,
     "backIcon": "arrow_left",
     "isCentered": true,
@@ -36,7 +36,7 @@
           },
           {
             "type": "text_view_default",
-            "text": "{{debtorName}}",
+            "text": "{{record.debtorName}}",
             "fontSize": 24,
             "fontWeight": "bold"
           },
@@ -48,19 +48,19 @@
           },
           {
             "type": "text_view_default",
-            "text": "{{amount}} ₽",
+            "text": "{{record.amount}} ₽",
             "fontSize": 28,
             "fontWeight": "bold",
             "color": "#167D58"
           },
           {
             "type": "text_view_default",
-            "text": "Срок: {{dueDate}}",
+            "text": "Срок: {{record.dueDate}}",
             "fontSize": 15
           },
           {
             "type": "text_view_default",
-            "text": "{{note}}",
+            "text": "{{record.note}}",
             "fontSize": 15
           }
         ]
@@ -71,12 +71,16 @@
         "containerColor": "#167D58",
         "action": {
           "type": "navigate",
-          "destination": "create_debt",
+          "destination": "edit_debt",
           "args": {
-            "debtorName": "{{debtorName}}",
-            "amount": "{{amount}}",
-            "dueDate": "{{dueDate}}",
-            "note": "{{note}}"
+            "id": "{{record.id}}",
+            "debtorName": "{{record.debtorName}}",
+            "amount": "{{record.amount}}",
+            "dueDate": "{{record.dueDate}}",
+            "note": "{{record.note}}",
+            "currency": "{{record.currency}}",
+            "direction": "{{record.direction}}",
+            "remind": "{{record.remind}}"
           }
         }
       },

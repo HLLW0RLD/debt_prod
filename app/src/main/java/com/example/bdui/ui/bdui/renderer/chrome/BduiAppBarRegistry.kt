@@ -149,7 +149,7 @@ object BduiAppBarRegistry {
                         "button" -> {
                             val action = node["action"] as? JsonObject
                             action?.let {
-                                context.actionHandler.executeNavigationAction(it)
+                                context.executeAction(it)
                             }
                         }
                     }
@@ -182,8 +182,7 @@ object BduiAppBarRegistry {
                                     onClick = {
                                         menuExpanded = false
                                         action?.let {
-                                            context.actionHandler
-                                                .executeNavigationAction(it)
+                                            context.executeAction(it)
                                         }
                                     }
                                 )

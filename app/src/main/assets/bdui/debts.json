@@ -49,91 +49,76 @@
   },
   "body": {
     "type": "column",
-    "padding": 16,
-    "spacing": 12,
     "children": [
       {
         "type": "text_view_default",
         "text": "Активные",
         "fontSize": 20,
+        "padding": 16,
         "fontWeight": "bold"
       },
       {
-        "type": "card",
-        "padding": 14,
-        "spacing": 8,
-        "cornerRadius": 16,
-        "children": [
-          {
-            "type": "text_view_default",
-            "text": "Алексей",
-            "fontSize": 17,
-            "fontWeight": "bold"
-          },
-          {
-            "type": "text_view_default",
-            "text": "15 000 ₽ · до 15.11.2026",
-            "fontSize": 14
-          },
-          {
-            "type": "button_text_ghost",
-            "text": "Открыть",
-            "contentColor": "#167D58",
-            "action": {
-              "type": "navigate",
-              "destination": "debt_details",
-              "args": {
-                "debtorName": "Алексей",
-                "amount": "15000",
-                "dueDate": "15.11.2026",
-                "note": "За аренду"
-              }
-            }
-          }
-        ]
-      },
-      {
-        "type": "card",
-        "padding": 14,
-        "spacing": 8,
-        "cornerRadius": 16,
-        "children": [
-          {
-            "type": "text_view_default",
-            "text": "Мария",
-            "fontSize": 17,
-            "fontWeight": "bold"
-          },
-          {
-            "type": "text_view_default",
-            "text": "27 500 ₽ · до 01.12.2026",
-            "fontSize": 14
-          },
-          {
-            "type": "button_text_ghost",
-            "text": "Открыть",
-            "contentColor": "#167D58",
-            "action": {
-              "type": "navigate",
-              "destination": "debt_details",
-              "args": {
-                "debtorName": "Мария",
-                "amount": "27500",
-                "dueDate": "01.12.2026",
-                "note": "Заём на ремонт"
-              }
-            }
-          }
-        ]
-      },
-      {
-        "type": "button_text_default",
-        "text": "Добавить долг",
+        "type": "button_floating_action",
+        "visible": true,
+        "icon": "add_debt",
         "containerColor": "#167D58",
+        "contentColor": "#FFFFFF",
+        "enterDelay": 0,
+        "startOffsetDp": 80,
+        "size": 56,
+        "iconSize": 24,
+        "cornerRadius": 28,
         "action": {
           "type": "navigate",
           "destination": "create_debt"
         }
+      },
+      {
+        "type": "lazy_column",
+        "source": "records",
+        "padding": 16,
+        "spacing": 12,
+        "reverseLayout": false,
+        "children": [
+          {
+            "type": "card",
+            "padding": 14,
+            "spacing": 8,
+            "cornerRadius": 16,
+            "children": [
+              {
+                "type": "text_view_default",
+                "text": "{{item.debtorName}}",
+                "fontSize": 17,
+                "fontWeight": "bold"
+              },
+              {
+                "type": "text_view_default",
+                "text": "{{item.amount}} ₽ · до {{item.dueDate}}",
+                "fontSize": 14
+              },
+              {
+                "type": "button_text_ghost",
+                "text": "Открыть",
+                "contentColor": "#167D58",
+                "action": {
+                  "type": "navigate",
+                  "destination": "debt_details",
+                  "args": {
+                    "id": "{{item.id}}",
+                    "debtorName": "{{item.debtorName}}",
+                    "amount": "{{item.amount}}",
+                    "dueDate": "{{item.dueDate}}",
+                    "note": "{{item.note}}",
+                    "currency": "{{item.currency}}",
+                    "direction": "{{item.direction}}",
+                    "remind": "{{item.remind}}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
       }
     ]
   }

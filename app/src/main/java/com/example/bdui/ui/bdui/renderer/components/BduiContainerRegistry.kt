@@ -4,12 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -26,7 +28,10 @@ import com.example.bdui.ui.bdui.renderer.screen.BduiRenderer
 import com.example.bdui.ui.theme.AppColors
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.floatOrNull
 import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonPrimitive
 
 object BduiContainerRegistry {
     val renderers: Map<String, BduiComponentRenderer> = mapOf(
@@ -130,59 +135,131 @@ object BduiContainerRegistry {
         },
 
         "lazy_column" to { node, context, modifier ->
-            val horizontal = when (node.string("horizontalAlignment", "start")) {
-                "center" -> Alignment.CenterHorizontally
-                "end" -> Alignment.End
-                else -> Alignment.Start
-            }
+            val source = node.string("source")
+            val padding = node["padding"]?.jsonPrimitive?.floatOrNull ?: 0f
+            val spacing = node["spacing"]?.jsonPrimitive?.floatOrNull ?: 0f
+            val reverseLayout = node["reverseLayout"]?.jsonPrimitive?.booleanOrNull ?: false
+            val userScrollEnabled = node["userScrollEnabled"]?.jsonPrimitive?.booleanOrNull ?: true
 
             val children = (node["children"] as? JsonArray)
                 ?.mapNotNull { it as? JsonObject }
                 .orEmpty()
 
-            LazyColumn(
-                modifier = styledContainer(
-                    node,
-                    modifier,
-                    node.color("backgroundColor", Color.Transparent)
-                ),
-                horizontalAlignment = horizontal,
-                verticalArrangement = verticalArrangement(
-                    node.string("verticalArrangement", "top"),
-                    node.float("spacing", 12f).dp
-                )
-            ) {
-                items(children) { child ->
-                    BduiRenderer(node = child, context = context)
+            val displayChildren = if (reverseLayout) {
+                children.reversed()
+            } else {
+                children
+            }
+
+            if (source.isNullOrBlank()) {
+                LazyColumn(
+                    modifier = modifier,
+                    contentPadding = PaddingValues(padding.dp),
+                    verticalArrangement = Arrangement.spacedBy(spacing.dp),
+                    userScrollEnabled = userScrollEnabled
+                ) {
+                    items(displayChildren) { child ->
+                        BduiRenderer(
+                            node = child,
+                            context = context
+                        )
+                    }
+                }
+            } else {
+                val items = context.data[source] as? JsonArray
+                    ?: JsonArray(emptyList())
+
+                val indexedItems = items.mapIndexed { index, item ->
+                    index to item
+                }
+
+                val displayItems = if (reverseLayout) {
+                    indexedItems.reversed()
+                } else {
+                    indexedItems
+                }
+
+                LazyColumn(
+                    modifier = modifier,
+                    contentPadding = PaddingValues(padding.dp),
+                    verticalArrangement = Arrangement.spacedBy(spacing.dp),
+                    userScrollEnabled = userScrollEnabled
+                ) {
+                    items(displayItems) { (originalIndex, item) ->
+                        val itemContext = context.withItem(item, originalIndex)
+
+                        children.forEach { child ->
+                            BduiRenderer(
+                                node = child,
+                                context = itemContext
+                            )
+                        }
+                    }
                 }
             }
         },
 
         "lazy_row" to { node, context, modifier ->
-            val vertical = when (node.string("verticalAlignment", "centerVertically")) {
-                "top" -> Alignment.Top
-                "bottom" -> Alignment.Bottom
-                else -> Alignment.CenterVertically
-            }
+            val source = node.string("source")
+            val padding = node["padding"]?.jsonPrimitive?.floatOrNull ?: 0f
+            val spacing = node["spacing"]?.jsonPrimitive?.floatOrNull ?: 0f
+            val reverseLayout = node["reverseLayout"]?.jsonPrimitive?.booleanOrNull ?: false
+            val userScrollEnabled = node["userScrollEnabled"]?.jsonPrimitive?.booleanOrNull ?: true
 
             val children = (node["children"] as? JsonArray)
                 ?.mapNotNull { it as? JsonObject }
                 .orEmpty()
 
-            LazyRow(
-                modifier = styledContainer(
-                    node,
-                    modifier,
-                    node.color("backgroundColor", Color.Transparent)
-                ),
-                verticalAlignment = vertical,
-                horizontalArrangement = horizontalArrangement(
-                    node.string("horizontalArrangement", "start"),
-                    node.float("spacing", 8f).dp
-                )
-            ) {
-                items(children) { child ->
-                    BduiRenderer(node = child, context = context)
+            val displayChildren = if (reverseLayout) {
+                children.reversed()
+            } else {
+                children
+            }
+
+            if (source.isNullOrBlank()) {
+                LazyRow(
+                    modifier = modifier,
+                    contentPadding = PaddingValues(padding.dp),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.dp),
+                    userScrollEnabled = userScrollEnabled
+                ) {
+                    items(displayChildren) { child ->
+                        BduiRenderer(
+                            node = child,
+                            context = context
+                        )
+                    }
+                }
+            } else {
+                val items = context.data[source] as? JsonArray
+                    ?: JsonArray(emptyList())
+
+                val indexedItems = items.mapIndexed { index, item ->
+                    index to item
+                }
+
+                val displayItems = if (reverseLayout) {
+                    indexedItems.reversed()
+                } else {
+                    indexedItems
+                }
+
+                LazyRow(
+                    modifier = modifier,
+                    contentPadding = PaddingValues(padding.dp),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.dp),
+                    userScrollEnabled = userScrollEnabled
+                ) {
+                    items(displayItems) { (originalIndex, item) ->
+                        val itemContext = context.withItem(item, originalIndex)
+
+                        children.forEach { child ->
+                            BduiRenderer(
+                                node = child,
+                                context = itemContext
+                            )
+                        }
+                    }
                 }
             }
         },

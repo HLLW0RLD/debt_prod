@@ -66,6 +66,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import java.util.Calendar
 
 object BduiElementRegistry {
+
     val renderers: Map<String, BduiComponentRenderer> = mapOf(
         "text_view_default" to { node, context, modifier ->
             val text = context.resolve(node.string("text"))
@@ -182,7 +183,11 @@ object BduiElementRegistry {
             }
         },
         "button_icon_ghost" to { node, context, modifier ->
-            IconButton(onClick = { runAction(node, context) }, enabled = node.boolean("enabled", true), modifier = modifier.then(node["size"]?.let { Modifier.size(node.float("size", 48f).dp) } ?: Modifier)) {
+            IconButton(
+                onClick = { runAction(node, context) },
+                enabled = node.boolean("enabled", true),
+                modifier = modifier.then(node["size"]?.let { Modifier.size(node.float("size", 48f).dp) } ?: Modifier)
+            ) {
                 BduiIcon(
                     name = node.string("icon"),
                     tint = node.color("contentColor", AppColors.accentPrimary)
@@ -246,7 +251,9 @@ object BduiElementRegistry {
             val key = node.string("stateKey")
             LaunchedEffect(key) { if (key !in context.values) context.values[key] = node.string("value") }
             val value = context.values[key].orEmpty()
-            Box(modifier = modifier.then(sizeModifier(node.string("width", "match_parent"), node.string("height")))) {
+            Box(
+                modifier = modifier.then(sizeModifier(node.string("width", "match_parent"), node.string("height")))
+            ) {
                 CustomOutlinedTextField(
                     value = value,
                     label = context.resolve(node.string("label", "Время")),
@@ -443,11 +450,11 @@ object BduiElementRegistry {
 
     private fun runAction(node: JsonObject, context: BduiScreenContext) {
         val action = node["action"] as? JsonObject ?: return
-        context.actionHandler.executeNavigationAction(action)
+        context.executeAction(action)
     }
 
     private fun runNamedAction(node: JsonObject, key: String, context: BduiScreenContext) {
         val action = node[key] as? JsonObject ?: return
-        context.actionHandler.executeNavigationAction(action)
+        context.executeAction(action)
     }
 }
